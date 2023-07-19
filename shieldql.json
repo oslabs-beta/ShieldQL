@@ -1,0 +1,9 @@
+{
+  "admin": {
+    "query": ["."],
+    "mutation": ["."]
+  },
+  "user": {
+    "query": ["."]
+  }
+}
