@@ -5,7 +5,7 @@ const encrypt = require('crypto');
 // import parse and stringify functionality from envfile library
 const { parse, stringify } = require('envfile');
 // import env file as envSource
-const envSource = '.env';
+const envSource = path.resolve(__dirname, '.env');
 // import object containing user-configured GraphQL roles and corresponding permissions from the shieldql.json file as permissions
 const permissions = require(path.resolve(__dirname, './shieldql.json'));
 
@@ -13,7 +13,7 @@ const permissions = require(path.resolve(__dirname, './shieldql.json'));
 const createSecrets = () => {
   // init const roles as array of uppercase strings (keys of permissions obj) describing permissions for each role in the shieldql file
   const roles = Object.keys(permissions).map(
-    (role) => `ACCESS_TOKEN_${role.toUpperCase}_SECRET`
+    (role) => `ACCESS_TOKEN_${role.toUpperCase()}_SECRET`
   );
   // read env file
   fs.readFile(envSource, 'utf8', (err, data) => {
