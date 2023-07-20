@@ -38,7 +38,7 @@ const createSecrets = () => {
     // update env file with new secrets
     fs.writeFile(envSource, stringify(result), (err) => {
       // if unsuccessful log error, else log confirmation message
-      err ? console.log(err) : console.log('File Saved');
+      err ? console.log(err) : console.log('Secrets created and stored');
     });
   });
 };
