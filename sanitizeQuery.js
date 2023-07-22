@@ -5,6 +5,8 @@ const sanitizeQuery = (
   maxDepth = 10,
   maxLength = 2000
 ) => {
+  // validate input type is string
+  if (typeof input !== String) return new Error('input must be a string');
   // check if input is more deeply nested than maxDepth
   deepLimit(input, maxDepth);
   // check if input is longer than maxLength
@@ -101,7 +103,7 @@ const lengthLimit = (input, length) => {
 //   }
 // }`,
 //     true,
-//     2,
+//     10,
 //     1000
 //   )
 // );
@@ -122,8 +124,9 @@ const lengthLimit = (input, length) => {
 // );
 
 // console.log(
-//   sanitizeQuery(`SELECT * from customers where id='1233' OR 1=1—'`, true)
+//   sanitizeQuery(`SELECT * from customers where id='1233' OR 2=2—'`, true)
 // );
+
 // console.log(
 //   sanitizeQuery(
 //     `mutation {
@@ -205,6 +208,7 @@ const lengthLimit = (input, length) => {
 //     true
 //   )
 // );
+
 // console.log(
 //   sanitizeQuery(
 //     `query {
@@ -237,4 +241,4 @@ const lengthLimit = (input, length) => {
 //   )
 // );
 
-// module.exports = sanitizeQuery;
+module.exports = sanitizeQuery;

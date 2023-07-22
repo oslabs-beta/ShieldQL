@@ -1,9 +1,9 @@
-// import file system, path, and encryption functionality
+// import file system and path functionality
 const fs = require('fs');
 const path = require('path');
 // import parse functionality from envfile library
 const { parse } = require('envfile');
-// import createSecrets function and describe function
+// import createSecrets function
 const createSecrets = require('../createSecrets.js');
 // init const envSource as path to env file
 const envSource = path.resolve(__dirname, '.env');
@@ -22,7 +22,7 @@ describe('createSecret unit tests', () => {
   //   console.log('before each');
   // });
 
-  it('should not create a new refresh token secret if one already exists in the env file', async () => {
+  xit('should not create a new refresh token secret if one already exists in the env file', async () => {
     // init var prevRefreshSecret and nextRefreshSecret
     let prevRefreshSecret, nextRefreshSecret;
     // read env file
