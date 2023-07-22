@@ -1,27 +1,7 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+const jwt = require('jsonwebtoken');
+//structure of jwt:
 
-// document.querySelector('#app').innerHTML = `
-//   <div>
-//     <a href="https://vitejs.dev" target="_blank">
-//       <img src="${viteLogo}" class="logo" alt="Vite logo" />
-//     </a>
-//     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-//       <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-//     </a>
-//     <h1>Hello Vite!</h1>
-//     <div class="card">
-//       <button id="counter" type="button"></button>
-//     </div>
-//     <p class="read-the-docs">
-//       Click on the Vite logo to learn more
-//     </p>
-//   </div>
-// `
-
-//hashing algo
+//header includes hashing algo
 //payload
 //signature = hash payload + secret 
 
@@ -29,3 +9,41 @@ import { setupCounter } from './counter.js'
 
 // setupCounter(document.querySelector('#counter'))
 
+const validateUser = (req, res, next) => {
+  //check cookies in request
+  //pull out access token from cookies
+  const accessToken = req.cookies.accessToken;
+
+  //decode the cookie to determine what the payload role is 
+  const obj = jwt.decode(accessToken);
+
+  //NOTE: double check that obj.role accesses the role. consider logging the obj
+
+  const secret = process.env[`ACCESS_TOKEN_${obj.role.toUpperCase()}_SECRET`];
+
+  //verify token using decoded role. if verification fails, send error
+  // result payload comes back as an object with roles and username as keys 
+  jwt.verify(accessToken, secret, (err, decoded) => {
+    if (err) {
+      throw new Error('Error during role verification in validate user')
+    }
+    else {
+      //work with verified decoded payload
+      let query = req.body.query;
+      query = query.split(" ");
+      
+      //if the query was a mutation, throw an error 
+      if (decoded.role !== 'Admin' && query[0] === "mutation") {
+        throw Error("DO NOT HAVE PERMISSIONS TO MUTATE");
+      }
+      else return next()
+    }
+  });
+}
+
+//Note- the following is hardcoded for our Admin with read/write access.
+//we're also only checking for read/write access rather than anything specific
+//not checking the actual customizable shieldql.json file
+//also - we are not triggering global error handler
+
+module.exports = { validateUser };
