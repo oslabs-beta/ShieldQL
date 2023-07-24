@@ -25,16 +25,24 @@ const validateUser = (req, res, next) => {
   // result payload comes back as an object with roles and username as keys 
   jwt.verify(accessToken, secret, (err, decoded) => {
     if (err) {
-      throw new Error('Error during role verification in validate user')
+      return next({
+        log: `Express error ${err} during invalidate user `,
+        status: 400,
+        message: { err: 'INVALID USER' }
+      })
     }
     else {
       //work with verified decoded payload
       let query = req.body.query;
       query = query.split(" ");
-      
+
       //if the query was a mutation, throw an error 
       if (decoded.role !== 'Admin' && query[0] === "mutation") {
-        throw Error("DO NOT HAVE PERMISSIONS TO MUTATE");
+        return next({
+          log: `Express error ${err} USER DOES NOT HAVE VALID PERMISSIONS`,
+          status: 400,
+          message: { err: 'INVALID USER' }
+        })
       }
       else return next()
     }
