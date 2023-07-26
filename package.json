@@ -2,7 +2,7 @@
   "name": "shieldql",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles",
     "dev": "vite",

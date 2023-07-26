@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 //structure of jwt:
-
+const { loginLink } = require('./loginLink');
+const { createSecrets } = require('./createSecrets');
+const { sanitizeQuery } = require('./sanitizeQuery')
 //header includes hashing algo
 //payload
 //signature = hash payload + secret 
@@ -54,4 +56,4 @@ const validateUser = (req, res, next) => {
 //not checking the actual customizable shieldql.json file
 //also - we are not triggering global error handler
 
-module.exports = { validateUser };
+module.exports = { validateUser, loginLink, sanitizeQuery, createSecrets };
