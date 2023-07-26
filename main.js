@@ -21,7 +21,7 @@ const validateUser = (req, res, next) => {
 
   //NOTE: double check that obj.role accesses the role. consider logging the obj
 
-  const secret = process.env[`ACCESS_TOKEN_${obj.role.toUpperCase()}_SECRET`];
+  const secret = process.env[`ACCESS_TOKEN_${res.locals.role.toUpperCase()}_SECRET`];
 
   //verify token using decoded role. if verification fails, send error
   // result payload comes back as an object with roles and username as keys 
