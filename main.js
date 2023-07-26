@@ -17,7 +17,7 @@ const validateUser = (req, res, next) => {
   const accessToken = req.cookies.accessToken;
 
   //decode the cookie to determine what the payload role is 
-  const obj = jwt.decode(accessToken);
+  // const obj = jwt.decode(accessToken);
 
   //NOTE: double check that obj.role accesses the role. consider logging the obj
 
@@ -39,7 +39,7 @@ const validateUser = (req, res, next) => {
       query = query.split(" ");
 
       //if the query was a mutation, throw an error 
-      if (decoded.role !== 'Admin' && query[0] === "mutation") {
+      if (decoded!== 'Admin' && query[0] === "mutation") {
         return next({
           log: `Express error ${err} USER DOES NOT HAVE VALID PERMISSIONS`,
           status: 400,
