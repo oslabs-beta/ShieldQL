@@ -18,9 +18,7 @@ const loginLink = (req, res, next) => {
   // but would it create a different token every time it is run?
   //otherwise multiple Users may have the same token. that may or may not be an issue tho
   const secretToken = `ACCESS_TOKEN_${res.locals.role.toUpperCase()}_SECRET`;
-  const accessToken = jwt.sign(res.locals.role, process.env[secretToken], {
-    expiresIn: "15min",
-  });
+  const accessToken = jwt.sign(res.locals.role, process.env[secretToken]);
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
