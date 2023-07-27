@@ -34,10 +34,13 @@ const validateUser = (req, res, next) => {
       })
     }
     else {
-      //work with verified decoded payload
       let query = req.body.query;
+      // console.log('Query before split:', query);
+      query = query.replace(/\n/g, "").trim();
+      console.log('is this saving');
+      // console.log('Query after regex & trim:', query);
       query = query.split(" ");
-
+      // console.log('Query after split:', query);
       //if the query was a mutation, throw an error 
       if (decoded!== 'Admin' && query[0] === "mutation") {
         return next({
