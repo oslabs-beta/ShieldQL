@@ -28,7 +28,7 @@ const validateUser = (req, res, next) => {
   jwt.verify(accessToken, secret, (err, decoded) => {
     if (err) {
       return next({
-        log: `Express error ${err} during invalidate user `,
+        log: `Express error ${err} during validate user `,
         status: 400,
         message: { err: 'INVALID USER' }
       })
@@ -53,7 +53,7 @@ const validateUser = (req, res, next) => {
       if (decoded!== 'Admin' && word === "mutation") {
         return next({
           log: `Express error ${err} USER DOES NOT HAVE VALID PERMISSIONS`,
-          status: 400,
+          status: 401,
           message: { err: 'INVALID USER' }
         })
       }
