@@ -39,10 +39,18 @@ const validateUser = (req, res, next) => {
       query = query.replace(/\n/g, "").trim();
       console.log('is this saving');
       // console.log('Query after regex & trim:', query);
-      query = query.split(" ");
+      let word = '';
+      for(let i = 0; i < query.length; i++){
+        if(query[i] === ' '){
+          break;
+        }
+        else{
+          word += query[i];
+        }
+      }
       // console.log('Query after split:', query);
       //if the query was a mutation, throw an error 
-      if (decoded!== 'Admin' && query[0] === "mutation") {
+      if (decoded!== 'Admin' && word === "mutation") {
         return next({
           log: `Express error ${err} USER DOES NOT HAVE VALID PERMISSIONS`,
           status: 400,
