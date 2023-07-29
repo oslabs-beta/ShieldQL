@@ -44,4 +44,4 @@ const createSecrets = () => {
 };
 
 // export createSecrets
-module.exports = createSecrets;
+module.exports = { createSecrets };

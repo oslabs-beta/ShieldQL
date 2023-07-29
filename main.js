@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 //structure of jwt:
-
+const { loginLink } = require('./loginLink');
+const { createSecrets } = require('./createSecrets');
+const { sanitizeQuery } = require('./sanitizeQuery')
 //header includes hashing algo
 //payload
 //signature = hash payload + secret 
@@ -15,26 +17,45 @@ const validateUser = (req, res, next) => {
   const accessToken = req.cookies.accessToken;
 
   //decode the cookie to determine what the payload role is 
-  const obj = jwt.decode(accessToken);
+  // const obj = jwt.decode(accessToken);
 
   //NOTE: double check that obj.role accesses the role. consider logging the obj
 
-  const secret = process.env[`ACCESS_TOKEN_${obj.role.toUpperCase()}_SECRET`];
+  const secret = process.env[`ACCESS_TOKEN_${res.locals.role.toUpperCase()}_SECRET`];
 
   //verify token using decoded role. if verification fails, send error
   // result payload comes back as an object with roles and username as keys 
   jwt.verify(accessToken, secret, (err, decoded) => {
     if (err) {
-      throw new Error('Error during role verification in validate user')
+      return next({
+        log: `Express error ${err} during validate user `,
+        status: 400,
+        message: { err: 'INVALID USER' }
+      })
     }
     else {
-      //work with verified decoded payload
       let query = req.body.query;
-      query = query.split(" ");
-      
+      // console.log('Query before split:', query);
+      query = query.replace(/\n/g, "").trim();
+      console.log('is this saving');
+      // console.log('Query after regex & trim:', query);
+      let word = '';
+      for(let i = 0; i < query.length; i++){
+        if(query[i] === ' '){
+          break;
+        }
+        else{
+          word += query[i];
+        }
+      }
+      // console.log('Query after split:', query);
       //if the query was a mutation, throw an error 
-      if (decoded.role !== 'Admin' && query[0] === "mutation") {
-        throw Error("DO NOT HAVE PERMISSIONS TO MUTATE");
+      if (decoded!== 'Admin' && word === "mutation") {
+        return next({
+          log: `Express error ${err} USER DOES NOT HAVE VALID PERMISSIONS`,
+          status: 401,
+          message: { err: 'INVALID USER' }
+        })
       }
       else return next()
     }
@@ -46,4 +67,4 @@ const validateUser = (req, res, next) => {
 //not checking the actual customizable shieldql.json file
 //also - we are not triggering global error handler
 
-module.exports = { validateUser };
+module.exports = { validateUser, loginLink, sanitizeQuery, createSecrets };

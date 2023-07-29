@@ -82,4 +82,4 @@ const lengthLimit = (input, length) => {
 // );
 
 // export sanitizeQuery
-module.exports = sanitizeQuery;
+module.exports = { sanitizeQuery };
