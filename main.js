@@ -1,20 +1,13 @@
 const jwt = require('jsonwebtoken');
-//structure of jwt:
+const { loginLink } = require('./sanitize');
 
-//header includes hashing algo
-//payload
-//signature = hash payload + secret 
-
-// jwt.verify(token,secret) //
-
-// setupCounter(document.querySelector('#counter'))
-
+// init the middleware function validateUser that throws validates users before allowing them to
 const validateUser = (req, res, next) => {
   //check cookies in request
   //pull out access token from cookies
   const accessToken = req.cookies.accessToken;
 
-  //decode the cookie to determine what the payload role is 
+  //decode the cookie to determine what the payload role is
   const obj = jwt.decode(accessToken);
 
   //NOTE: double check that obj.role accesses the role. consider logging the obj
@@ -22,28 +15,26 @@ const validateUser = (req, res, next) => {
   const secret = process.env[`ACCESS_TOKEN_${obj.role.toUpperCase()}_SECRET`];
 
   //verify token using decoded role. if verification fails, send error
-  // result payload comes back as an object with roles and username as keys 
+  // result payload comes back as an object with roles and username as keys
   jwt.verify(accessToken, secret, (err, decoded) => {
     if (err) {
-      throw new Error('Error during role verification in validate user')
-    }
-    else {
+      throw new Error('Error during role verification in validate user');
+    } else {
       //work with verified decoded payload
       let query = req.body.query;
-      query = query.split(" ");
-      
-      //if the query was a mutation, throw an error 
-      if (decoded.role !== 'Admin' && query[0] === "mutation") {
-        throw Error("DO NOT HAVE PERMISSIONS TO MUTATE");
-      }
-      else return next()
+      query = query.split(' ');
+
+      //if the query was a mutation, throw an error
+      if (decoded.role !== 'Admin' && query[0] === 'mutation') {
+        throw Error('DO NOT HAVE PERMISSIONS TO MUTATE');
+      } else return next();
     }
   });
-}
+};
 
 //Note- the following is hardcoded for our Admin with read/write access.
 //we're also only checking for read/write access rather than anything specific
 //not checking the actual customizable shieldql.json file
 //also - we are not triggering global error handler
 
-module.exports = { validateUser };
+module.exports = { validateUser, loginLink, sanitizeQuery };

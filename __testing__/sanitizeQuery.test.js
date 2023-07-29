@@ -1,7 +1,8 @@
 // import sanitizeQuery function
-const sanitizeQuery = require('../sanitizeQuery.js');
+const { sanitizeQuery } = require('../sanitizeQuery.js');
 
 describe('sanitizeQuery unit tests', () => {
+  console.log(sanitizeQuery('hello'));
   it('Should throw an error if a query is nested more than 10 levels deep and no argument is passed-in for the maxDepth parameter', () => {
     // init mock deepQuery string
     const deepQuery = `query maliciousQuery {

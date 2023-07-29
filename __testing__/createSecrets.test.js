@@ -4,7 +4,7 @@ const path = require('path');
 // import parse functionality from envfile library
 const { parse } = require('envfile');
 // import createSecrets function
-const createSecrets = require('../createSecrets.js');
+const { createSecrets } = require('../createSecrets.js');
 // init const envSource as path to env file
 const envSource = path.resolve(__dirname, '.env');
 

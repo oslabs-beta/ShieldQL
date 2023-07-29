@@ -11,7 +11,7 @@
 */
 const loginLink = (req, res, next) => {
   //require jwt token
-  const jwt = require("jsonwebtoken");
+  const jwt = require('jsonwebtoken');
 
   //res.locals.role will contain the role
   //the below code would generate access tokens, with the payload being role
@@ -19,15 +19,15 @@ const loginLink = (req, res, next) => {
   //otherwise multiple Users may have the same token. that may or may not be an issue tho
   const secretToken = `ACCESS_TOKEN_${res.locals.role.toUpperCase()}_SECRET`;
   const accessToken = jwt.sign(res.locals.role, process.env[secretToken], {
-    expiresIn: "15min",
+    expiresIn: '15min',
   });
 
-  res.cookie("accessToken", accessToken, {
+  res.cookie('accessToken', accessToken, {
     httpOnly: true,
     secure: true,
   });
   return next();
 };
 
+// export loginLink
 module.exports = { loginLink };
-//do i need to return next and how do i export this?
