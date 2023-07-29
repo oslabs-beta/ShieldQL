@@ -24,7 +24,7 @@ const validateUser = (req, res, next) => {
   const secret = process.env[`ACCESS_TOKEN_${res.locals.role.toUpperCase()}_SECRET`];
 
   //verify token using decoded role. if verification fails, send error
-  // result payload comes back as an object with roles and username as keys 
+  // result payload comes back as an object with roles and username as keys
   jwt.verify(accessToken, secret, (err, decoded) => {
     if (err) {
       return next({
@@ -35,10 +35,7 @@ const validateUser = (req, res, next) => {
     }
     else {
       let query = req.body.query;
-      // console.log('Query before split:', query);
-      query = query.replace(/\n/g, "").trim();
-      console.log('is this saving');
-      // console.log('Query after regex & trim:', query);
+      query = query.replace(/\n/g, " ").trim();
       let word = '';
       for(let i = 0; i < query.length; i++){
         if(query[i] === ' '){
@@ -48,7 +45,6 @@ const validateUser = (req, res, next) => {
           word += query[i];
         }
       }
-      // console.log('Query after split:', query);
       //if the query was a mutation, throw an error 
       if (decoded!== 'Admin' && word === "mutation") {
         return next({
@@ -60,7 +56,7 @@ const validateUser = (req, res, next) => {
       else return next()
     }
   });
-}
+};
 
 //Note- the following is hardcoded for our Admin with read/write access.
 //we're also only checking for read/write access rather than anything specific
