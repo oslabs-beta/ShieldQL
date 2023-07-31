@@ -6,4 +6,8 @@ A lightweight JavaScript library for GraphQL that adds authentication, authoriza
 
 ## Setup
 
+- shieldql.config file in root directory
+- env file in root directory (only one)
+- roles need to be passed in res.locals.role
+
 # Installation
