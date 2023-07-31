@@ -78,6 +78,4 @@ const lengthLimit = (input, length) => {
   return input;
 };
 
-// console.log(sanitize('hello'));
-
 module.exports = { sanitize };
