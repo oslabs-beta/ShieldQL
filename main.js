@@ -4,15 +4,6 @@ const { createSecrets } = require('./createSecrets');
 const { sanitizeQuery } = require('./sanitizeQuery');
 const { shieldqlConfig } = require('./shieldqlConfig');
 
-//structure of jwt:
-//header includes hashing algo
-//payload
-//signature = hash payload + secret
-
-// jwt.verify(token,secret) //
-
-// setupCounter(document.querySelector('#counter'))
-
 const validateUser = (req, res, next) => {
   //check cookies in request
   //pull out access token from cookies
