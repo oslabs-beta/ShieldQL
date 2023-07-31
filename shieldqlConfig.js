@@ -47,7 +47,7 @@ const shieldqlConfig = (
     // update env file with new secrets
     fs.writeFile(envSource, stringify(newEnv), (err) => {
       // if unsuccessful log error, else log confirmation message
-      err ? console.log(err) : console.log('Secrets created and stored');
+      err ? console.log('Error updating env file at shieldqlConfig:', err) : console.log('ShieldQL successfully configured');
     });
   });
 };
