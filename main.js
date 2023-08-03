@@ -6,8 +6,11 @@ const { sanitizeQuery } = require('./sanitizeQuery');
 const permissions = require(path.resolve(__dirname, '../../shieldql.json'));
 
 const validateUser = (req, res, next) => {
+  // console.log('-----in validateUser-----');
   // pull out access token from cookies
   const accessToken = req.cookies.accessToken;
+  // console.log('req cookies: ', req.cookies);
+  // console.log('accessToken before verification: ', accessToken);
 
   const secret =
     process.env[`ACCESS_TOKEN_${res.locals.role.toUpperCase()}_SECRET`];
@@ -15,16 +18,20 @@ const validateUser = (req, res, next) => {
   // verify token using role.
   // result payload comes back as an object with roles and username as keys
   jwt.verify(accessToken, secret, (err, decoded) => {
+    // console.log('---in jwt.verify---');
     // if verification fails, send error
     if (err) {
+      // console.log('secret: ', secret);
+      // console.log('accessToken: ', accessToken);
       return next({
-        log: `Express error ${err} during validate user `,
+        log: `Express error during validateUser: ${err}`,
         status: 400,
         message: { err: 'INVALID USER' },
       });
     }
 
     // console.log("decoded value: ", decoded);
+    // console.log("permissions: ", permissions);
 
     // verification valid, meaning that jwt is a valid jwt we created
     // now check if client's query is appropriate based on their role
@@ -48,19 +55,10 @@ const validateUser = (req, res, next) => {
       field += fieldString[i];
     }
 
-    // PERMISSIONS VALIDATION
-    // query at all
-    // if can query, which things can they query
-    // mutate at all
-    // if can mutate, which things can they mutate
+    // console.log('field: ', field);
+    // console.log('-----checking permissions-----');
 
-    // pseudocoding out the reading from the shieldql json file process
-    // permissions object
-    // QUESTION: ERROR HANDLING: if permissions[role] doesn't exist, return error --> should be in loginLink
-  
-    // QUESTION: is decoded === role??
-
-    if (!permissions[decoded]) {
+    if (!permissions[decoded.role]) {
       return next({
         log: 'Express error: user role does not exist on the shieldql.json file',
         status: 500,
@@ -68,7 +66,7 @@ const validateUser = (req, res, next) => {
       });
     }
 
-    const fieldArray = permissions[decoded][operation];
+    const fieldArray = permissions[decoded.role][operation];
     // error message is triggered if the client request includes an unauthorized operation or unauthorized field
     if (!fieldArray || !fieldArray.includes(".") && !fieldArray.includes(field)) {
       return next({
@@ -82,15 +80,6 @@ const validateUser = (req, res, next) => {
   });
 };
 
-// logic to parse the query
-// 1. firstWord = { --> query. nextWord = field
-// 2. firstWord = query --> check secondWord
-// 2A. if secondWord = { --> nextWord = field
-// 2B. if secondWord = GetBooks --> named query
-// // 2B. iterate through the function declaration
-// // 2B. wait until the word is a {
-// // 2B. nextWord = field
-// 3. firstWord = mutation --> we need to check the second word
 
 // stretch feature: multiple queries
 // if we do have multiple root-level queries in an operation, the operation would be named
@@ -134,23 +123,5 @@ mutation CreateUser($email: String!, $password: String!, $role: String!) {
   }
 }
 `;
-
-// console.log(query);
-// query = query.replace(/\n/g, ' ').trim();
-// console.log(query);
-
-// const operation = query.split('{\n');
-// const operation2 = query.split('{\n')[0].trim();
-// const operation3 = query.split('{\n')[0].trim().split(' ');
-// const operation4 = query.split('{\n')[0].trim().split(' ')[0]; // correct operation method
-// console.log(operation);
-// console.log(operation2);
-// console.log(operation3);
-// console.log(operation4);
-// const fieldWrong = query.split('{\n')[1].trim().split(' ')[0]; // incorrect field method
-// console.log(fieldWrong);
-// GraphQLock string manipulation for the 'field' is inaccurate
-// assumes that there's a space between the end of the field and ( or {
-// "login(email:" is a valid start to the field but inaccurate manip
 
 module.exports = { validateUser, loginLink, sanitizeQuery, createSecrets };
