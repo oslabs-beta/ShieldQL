@@ -1,9 +1,8 @@
 
 const loginLink = (req, res, next) => {
-  const jwt = require('jsonwebtoken');
+  const jwt = require ('jsonwebtoken');
 
-  //create jwt based on role passed via res.locals
-  //rn jwt expires 15 s
+  //create access token based on role passed via res.locals
   const secretToken = `ACCESS_TOKEN_${res.locals.role.toUpperCase()}_SECRET`;
   try{
     const accessToken = jwt.sign({role: res.locals.role}, process.env[secretToken], { expiresIn: '15000' });
