@@ -3,7 +3,10 @@ const path = require('path');
 const { loginLink } = require('./loginLink');
 const { createSecrets } = require('./createSecrets');
 const { sanitizeQuery } = require('./sanitizeQuery');
+const { shieldqlConfig } = require('./shieldqlConfig');
+
 const permissions = require(path.resolve(__dirname, '../../shieldql.json'));
+
 
 const validateUser = (req, res, next) => {
   // pull out access token from cookies
@@ -67,4 +70,4 @@ const validateUser = (req, res, next) => {
   });
 };
 
-module.exports = { validateUser, loginLink, sanitizeQuery, createSecrets };
+module.exports = { validateUser, loginLink, sanitizeQuery, createSecrets, shieldqlConfig };
