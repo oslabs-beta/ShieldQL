@@ -13,7 +13,8 @@
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.2.1",
     "envfile": "^6.18.0",
-    "jsonwebtoken": "^9.0.1"
+    "jsonwebtoken": "^9.0.1",
+    "path": "^0.12.7"
   },
   "description": "A lightweight JavaScript library for GraphQL that adds authentication, authorization, and query sanitization to prevent malicious queries and injection attacks.",
   "main": "main.js",
