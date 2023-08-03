@@ -50,8 +50,8 @@ import { Request, Response, NextFunction } from 'express';
 // this version of sanitizeQuery should be more performant (no need to find and read file)
 // init sanitizeQuery, an Express middleware function users will require and invoke in their applications to sanitize graphQL queries
 const sanitizeQuery = async (
-  res: Response,
   req: Request,
+  res: Response,
   next: NextFunction
 ) => {
   try {

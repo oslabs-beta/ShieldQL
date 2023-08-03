@@ -20,7 +20,8 @@ const sanitize = (input, strict = false, maxDepth = 10, maxLength = 2000) => {
       // common HTML injection fragments
       '<script',
       'script/>',
-      'script',
+      'script ',
+      ' script ',
       // dangerous characters
       '<',
       '>',
