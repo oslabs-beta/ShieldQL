@@ -1,30 +1,33 @@
 # ShieldQL
 
 ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL that adds authentication, authorization, and query sanitization to prevent malicious queries and injection attacks.
+
 - Authentication: ShieldQL helps you implement user authentication in your GraphQL APIs, ensuring that only authenticated users can access certain parts of your API.
 - Authorization: With ShieldQL, you can define granular access controls for different types and fields in your GraphQL schema. This way, you can control what data each user can access based on their role and permissions.
-- Query Sanitization: ShieldQL gives you the tools to sanitize incoming GraphQL queries to prevent potential malicious operations and protect your backend from excessively deep and excessively long queries used in  denial-of-service attacks.
+- Query Sanitization: ShieldQL gives you the tools to sanitize incoming GraphQL queries to prevent potential malicious operations and protect your backend from excessively deep and excessively long queries used in denial-of-service attacks.
 
 ## Features
 
 - shieldqlConfig: A Javascript function that allows you to configure sanitizeQuery parameters and creates a secret for each role in the shieldql.json file, storing all of this information in the .env file
-  - Where to use: Recommended use is next to importation of shieldQL functionality in main server file (similar to dotenv.config()), NOT in any  
-  - Accepts 3 parameters: 
+  - Where to use: Recommended use is next to importation of shieldQL functionality in main server file (similar to dotenv.config()), NOT in any
+  - Accepts 3 parameters:
     - strictShieldQL: (default false) boolean value that determines whether or not sanitizeQuery will be run on strict mode or not
     - maxDepthShieldQL: (default 10) integer that establishes the upper bound for the maximum depth of a graphQL query
     - maxLengthShieldQL: (default 2000) integer that establishes the upper bound for total characters in a graphQL query
-- loginLink: 
-- createSecrets: 
-- sanitizeQuery: 
+- loginLink:
+- createSecrets:
+- sanitizeQuery:
 
 - SanitizeQuery works even if shieldqlConfig is never invoked, although if used without shieldqlConfig, default parameters will be used (strictmode set to false, maxDepth set to 10, maxLength set to 2000)
+  - User MUST pass in the user graphQL role in the auth route as #res.locals.role#
 
 ## Setup
+
 - Make sure dotenv has been imported, that it is properly configured, and that a .env file already exists
 - Ensure that the .env file is in the root directory
-- Create a shieldql.config file in root directory. This file will contain 
+- Create a shieldql.config file in root directory. This file will contain
 
-``` javascript
+```javascript
 {
   "superadmin": {
     "query": ["."],
@@ -40,13 +43,11 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
 }
 ```
 
-
 - roles need to be passed in res.locals.role
-
 
 ## Installation
 
-``` javascript
+```javascript
 npm i shieldql
 ```
 
@@ -94,8 +95,8 @@ Copy code
 const { isAuthenticated, hasPermission } = require('./auth'); // Replace with your custom auth functions
 
 const shield = shieldQL({
-  isAuthenticated,
-  hasPermission,
+isAuthenticated,
+hasPermission,
 });
 Apply the ShieldQL middleware to your GraphQL endpoint:
 javascript
@@ -107,12 +108,12 @@ const { schema } = require('./schema'); // Replace with your GraphQL schema
 const app = express();
 
 app.use('/graphql', shield, graphqlHTTP({
-  schema,
-  graphiql: true, // Enable GraphiQL interface for testing (optional)
+schema,
+graphiql: true, // Enable GraphiQL interface for testing (optional)
 }));
 
 app.listen(3000, () => {
-  console.log('Server started on http://localhost:3000');
+console.log('Server started on http://localhost:3000');
 });
 Implement your custom authentication and authorization functions in a separate file (e.g., auth.js) and export them for ShieldQL to use.
 Custom Authentication and Authorization Functions
@@ -126,22 +127,22 @@ Copy code
 
 // Sample authentication function
 const isAuthenticated = (user) => {
-  return user !== null; // Replace this with your actual authentication logic
+return user !== null; // Replace this with your actual authentication logic
 };
 
 // Sample authorization function
 const hasPermission = (user, requiredPermission) => {
-  if (!user) {
-    return false;
-  }
-  
-  // Replace this with your actual permission checking logic
-  return user.permissions.includes(requiredPermission);
+if (!user) {
+return false;
+}
+
+// Replace this with your actual permission checking logic
+return user.permissions.includes(requiredPermission);
 };
 
 module.exports = {
-  isAuthenticated,
-  hasPermission,
+isAuthenticated,
+hasPermission,
 };
 Remember to adapt the isAuthenticated and hasPermission functions according to your user authentication and authorization mechanisms.
 
