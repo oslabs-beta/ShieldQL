@@ -11,16 +11,16 @@ const permissions = require(path.resolve(__dirname, '../../shieldql.json'));
 
 // init func shieldqlConfig that accepts 3 params: strictShieldQL (bool), maxDepthShieldQL (number), maxLengthShieldQL (number) and creates new secrets and sanitizeQuery params properties in both the env file and the process.env object
 const shieldqlConfig = (
-  strictShieldQL = false,
-  maxDepthShieldQL = 10,
-  maxLengthShieldQL = 2000
+  strictShieldQL: boolean = false,
+  maxDepthShieldQL: number = 10,
+  maxLengthShieldQL: number = 2000
 ) => {
   // init const roles as array of uppercase strings (keys of permissions obj) describing permissions for each role in the shieldql file
   const roles = Object.keys(permissions).map(
     (role) => `ACCESS_TOKEN_${role.toUpperCase()}_SECRET`
   );
   // read env file
-  fs.readFile(envSource, 'utf8', (err, data) => {
+  fs.readFile(envSource, 'utf8', (err: string, data: string) => {
     // if error reading file log error
     if (err) return console.log('Error at shieldqlConfig:', err);
     // init const newEnv to store parsed (into JS object) env file contents
@@ -33,10 +33,12 @@ const shieldqlConfig = (
       process.env[role] = newEnv[role] = secret;
     });
     // add each passed-in arg as a value in both the new .env file and the process.env object
-    process.env.strictShieldQL = newEnv.strictShieldQL = strictShieldQL;
-    process.env.maxDepthShieldQL = newEnv.maxDepthShieldQL = maxDepthShieldQL;
+    process.env.strictShieldQL = newEnv.strictShieldQL =
+      JSON.stringify(strictShieldQL);
+    process.env.maxDepthShieldQL = newEnv.maxDepthShieldQL =
+      JSON.stringify(maxDepthShieldQL);
     process.env.maxLengthShieldQL = newEnv.maxLengthShieldQL =
-      maxLengthShieldQL;
+      JSON.stringify(maxLengthShieldQL);
     // if refresh token secret doesn't already exist in the env file, create new refresh token secret
     if (!newEnv['REFRESH_TOKEN_SECRET']) {
       const secret = encrypt.randomBytes(64).toString('hex');
@@ -45,7 +47,7 @@ const shieldqlConfig = (
         secret;
     }
     // update env file with new secrets
-    fs.writeFile(envSource, stringify(newEnv), (err) => {
+    fs.writeFile(envSource, stringify(newEnv), (err: string) => {
       // if unsuccessful log error, else log confirmation message
       err
         ? console.log('Error updating env file at shieldqlConfig:', err)
