@@ -47,15 +47,8 @@ describe('shieldqlConfig unit tests', () => {
           return console.log(err);
         }
       });
-    } catch (err) {
-      return console.log(err);
-    }
     // invoke shieldqlConfig
-    try {
-      shieldqlConfig();
-    } catch (err) {
-      return console.log(err);
-    }
+    shieldqlConfig();
     // read env file again
     fs.readFileSync(envSource, 'utf8', async (err, data) => {
       try {
