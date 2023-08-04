@@ -6,10 +6,9 @@ const { parse } = require('envfile');
 // import shieldqlConfig function
 const { shieldqlConfig } = require('../shieldqlConfig.js');
 
-// setup env file
+// load env variables onto process.env object
 require('dotenv').config();
-
-// init const envSource as path to env file
+// init const envSource as path to test env file
 const envSource = path.resolve(__dirname, './.env');
 
 describe('shieldqlConfig unit tests', () => {
@@ -28,25 +27,19 @@ describe('shieldqlConfig unit tests', () => {
   });
 
   it('should not add a new refresh token secret if one already exists in the env file', async () => {
-    // init var prevRefreshSecret and nextRefreshSecret
+    // init variables prevRefreshSecret and nextRefreshSecret
     let prevRefreshSecret, nextRefreshSecret;
     // read env file
-    try {
-      fs.readFileSync(envSource, 'utf8', async (err, data) => {
-        try {
-          // init const prevEnv to store parsed (into JS object) env file contents
-          const prevEnv = parse(data);
-        } catch (err) {
-          return console.log(err);
-        }
-        // reassign prevRefreshSecret to current refresh secret in .env file
-        prevRefreshSecret = prevEnv['REFRESH_TOKEN_SECRET'];
-        // if error reading file log error
-      });
-    } catch (err) {
-      return console.log(err);
-    }
-    // invoke shieldqlConfig
+    fs.readFileSync(envSource, 'utf8', (err, data) => {
+      // if error reading file log error
+      if (err)
+        console.log('Error reading env file at shieldqlConfig.test.js:', err);
+      // init const prevEnv to store parsed (into JS object) env file contents
+      const prevEnv = parse(data);
+      // reassign prevRefreshSecret to current refresh secret in .env file
+      prevRefreshSecret = prevEnv['REFRESH_TOKEN_SECRET'];
+    });
+    // invoke shieldqlConfig to test if it updates the refresh token property in the env file
     shieldqlConfig();
     // read env file again
     fs.readFileSync(envSource, 'utf8', async (err, data) => {
