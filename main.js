@@ -1,63 +1,73 @@
 const jwt = require('jsonwebtoken');
+const path = require('path');
 const { loginLink } = require('./loginLink');
 const { createSecrets } = require('./createSecrets');
 const { sanitizeQuery } = require('./sanitizeQuery');
 const { shieldqlConfig } = require('./shieldqlConfig');
 
+const permissions = require(path.resolve(__dirname, '../../shieldql.json'));
+
+
 const validateUser = (req, res, next) => {
-  //check cookies in request
-  //pull out access token from cookies
+  // pull out access token from cookies
   const accessToken = req.cookies.accessToken;
-
-  //decode the cookie to determine what the payload role is
-  // const obj = jwt.decode(accessToken);
-
-  //NOTE: double check that obj.role accesses the role. consider logging the obj
-
   const secret =
     process.env[`ACCESS_TOKEN_${res.locals.role.toUpperCase()}_SECRET`];
 
-  //verify token using decoded role. if verification fails, send error
+  // verify token using role
   // result payload comes back as an object with roles and username as keys
   jwt.verify(accessToken, secret, (err, decoded) => {
+    // if verification fails, send error
     if (err) {
       return next({
-        log: `Express error ${err} during validate user `,
+        log: `Express error during validateUser: ${err}`,
         status: 400,
         message: { err: 'INVALID USER' },
       });
-    } else {
-      let query = req.body.query;
-      query = query.replace(/\n/g, ' ').trim();
-      let word = '';
-      for (let i = 0; i < query.length; i++) {
-        if (query[i] === ' ') {
-          break;
-        } else {
-          word += query[i];
-        }
-      }
-      //if the query was a mutation, throw an error
-      if (decoded !== 'Admin' && word === 'mutation') {
-        return next({
-          log: `Express error ${err} USER DOES NOT HAVE VALID PERMISSIONS`,
-          status: 401,
-          message: { err: 'INVALID USER' },
-        });
-      } else return next();
     }
+
+    // verification valid, meaning that jwt is a valid jwt we created
+    // now check if client's query is appropriate based on their role
+    const query = req.body.query;
+
+    // parsing query to get operation word: query or mutation
+    let operation = query.split('{\n')[0].trim().split(' ')[0];
+    // or, if query notation excludes the word "query"
+    if (!operation) operation = 'query';
+
+    const fieldString = query.split('{\n')[1].trim();
+    let field = '';
+    for (let i = 0; i < fieldString.length; i++) {
+      // accumulate to the field
+      if (
+        fieldString[i] === ' ' ||
+        fieldString[i] === '(' ||
+        fieldString[i] === '{'
+      )
+        break;
+      field += fieldString[i];
+    }
+
+    if (!permissions[decoded.role]) {
+      return next({
+        log: 'Express error: user role does not exist on the shieldql.json file',
+        status: 500,
+        message: { err: 'INVALID AUTHORIZATION' },
+      });
+    }
+
+    const fieldArray = permissions[decoded.role][operation];
+    // error message is triggered if the client request includes an unauthorized operation or unauthorized field
+    if (!fieldArray || !fieldArray.includes(".") && !fieldArray.includes(field)) {
+      return next({
+        log: 'Express error: USER DOES NOT HAVE VALID PERMISSIONS',
+        status: 401,
+        message: { err: 'INVALID AUTHORIZATION' },
+      });
+    }
+
+    return next();
   });
 };
 
-//Note- the following is hardcoded for our Admin with read/write access.
-//we're also only checking for read/write access rather than anything specific
-//not checking the actual customizable shieldql.json file
-//also - we are not triggering global error handler
-
-module.exports = {
-  validateUser,
-  loginLink,
-  sanitizeQuery,
-  createSecrets,
-  shieldqlConfig,
-};
+module.exports = { validateUser, loginLink, sanitizeQuery, createSecrets, shieldqlConfig };
