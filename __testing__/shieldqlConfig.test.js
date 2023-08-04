@@ -26,7 +26,6 @@ describe('shieldqlConfig unit tests', () => {
       if (err) throw `Error clearing env file: ${err}`;
     });
   });
-  // after all tests, tear down test env file
 
   it('should not add a new refresh token secret if one already exists in the env file', async () => {
     // init var prevRefreshSecret and nextRefreshSecret
