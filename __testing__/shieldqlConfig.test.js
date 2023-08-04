@@ -28,7 +28,9 @@ describe('shieldqlConfig unit tests', () => {
 
   it('should not add a new refresh token secret if one already exists in the env file', async () => {
     // init variables prevRefreshSecret and nextRefreshSecret
-    let prevRefreshSecret, nextRefreshSecret;
+    let prevRefreshSecret,
+      nextRefreshSecret,
+      prevProcessEnv = process.env.REFRESH_TOKEN_SECRET;
     // read env file
     fs.readFileSync(envSource, 'utf8', (err, data) => {
       // if error reading file log error
@@ -43,19 +45,15 @@ describe('shieldqlConfig unit tests', () => {
     shieldqlConfig();
     // read env file again
     fs.readFileSync(envSource, 'utf8', async (err, data) => {
-      try {
-        if (err) console.log(err);
-        // init const nextEnv to store parsed (into JS object) env file contents
-        const nextEnv = await parse(data);
-        // reassign nextRefreshSecret to current refresh secret in .env file
-        nextRefreshSecret = nextEnv['REFRESH_TOKEN_SECRET'];
-        // if error reading file log error
-        expect(nextRefreshSecret).toEqual(prevRefreshSecret);
-      } catch (err) {
-        return console.log(err);
-      }
+      if (err) console.log(err);
+      // init const nextEnv to store parsed (into JS object) env file contents
+      const nextEnv = await parse(data);
+      // reassign nextRefreshSecret to current refresh secret in .env file
+      nextRefreshSecret = nextEnv['REFRESH_TOKEN_SECRET'];
+      // if error reading file log error
     });
     expect(nextRefreshSecret).toEqual(prevRefreshSecret);
+    expect(prevProcessEnv).toEqual(process.env.REFRESH_TOKEN_SECRET);
   });
   xit('should create new secrets in env file if none existed before', () => {});
   xit('should update secrets for each role', () => {});
