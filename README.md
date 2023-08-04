@@ -6,7 +6,7 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
 - Authorization: With ShieldQL, you can define granular access controls for different types and fields in your GraphQL schema. This way, you can control what data each user can access based on their role and permissions.
 - Query Sanitization: ShieldQL gives you the tools to sanitize incoming GraphQL queries to prevent potential malicious operations and protect your backend from excessively deep and excessively long queries used in denial-of-service attacks.
 
-# NOTE: ShieldQL is still in development. We will officially launch on Thursday 9/10
+# NOTE: ShieldQL is still in development. We will officially launch on Thursday 8/10 :rocket:
 
 ## Features
 
@@ -63,7 +63,7 @@ npm i shieldql
 
 shieldQL is ISC licensed
 
-# PENDING REVIEW
+<!-- # PENDING REVIEW
 
 ShieldQL is a powerful and easy-to-use JavaScript GraphQL middleware library designed to enhance the security of your GraphQL APIs. It provides essential features such as user authentication, authorization, and query sanitization, making it a reliable choice for securing your GraphQL endpoints. With ShieldQL, you can rest assured that your GraphQL API is protected from common security vulnerabilities.
 
@@ -165,4 +165,4 @@ ShieldQL is licensed under the MIT License. See the LICENSE file for more detail
 
 Thank you for using ShieldQL! We hope this library helps you secure your GraphQL APIs effectively. If you encounter any issues or need further assistance, please don't hesitate to reach out to us.
 
-Happy coding!
+Happy coding! -->
