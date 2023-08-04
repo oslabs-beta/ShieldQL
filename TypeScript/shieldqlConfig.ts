@@ -5,7 +5,7 @@ const encrypt = require('crypto');
 // import parse and stringify functionality from envfile library
 const { parse, stringify } = require('envfile');
 // import path to env file as envSource
-const envSource = path.resolve(__dirname, '.env');
+const envSource = path.resolve(__dirname, '../../.env');
 // import object containing user-configured GraphQL roles and corresponding permissions from the shieldql.json file as permissions
 const permissions = require(path.resolve(__dirname, '../../shieldql.json'));
 

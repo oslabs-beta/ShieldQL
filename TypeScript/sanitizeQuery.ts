@@ -47,7 +47,7 @@ import { Request, Response, NextFunction } from 'express';
 // };
 
 // Version of sanitizeQuery that does not read .env file and instead directly pulls data from process.env object
-// this version of sanitizeQuery should be more performant (no need to find and read file)
+// this version of sanitizeQuery should be more performant in terms of time and space complexity (no need to find, read, and parse file)
 // init sanitizeQuery, an Express middleware function users will require and invoke in their applications to sanitize graphQL queries
 const sanitizeQuery = async (
   req: Request,

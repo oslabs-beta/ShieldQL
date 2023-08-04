@@ -19,13 +19,19 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
 - sanitizeQuery:
 
 - SanitizeQuery works even if shieldqlConfig is never invoked, although if used without shieldqlConfig, default parameters will be used (strictmode set to false, maxDepth set to 10, maxLength set to 2000)
-  - User MUST pass in the user graphQL role in the auth route as #res.locals.role#
 
 ## Setup
 
 - Make sure dotenv has been imported, that it is properly configured, and that a .env file already exists
 - Ensure that the .env file is in the root directory
 - Create a shieldql.config file in root directory. This file will contain
+  <!-- - User MUST pass in the user graphQL role in the auth route as #res.locals.role# -->
+- Ensure that the graphQL role is passed into graphQL route in order for validateToken and loginLink to enforce authentication and authorization
+  - A common approach to this problem is:
+    - Insert a middleware function preceding validateToken and loginLink that queries the user database
+    - Extracts the graphQL role
+    - Stores it in res.locals.role
+  - This will be passed on to each of shieldQL's middleware functions
 
 ```javascript
 {
