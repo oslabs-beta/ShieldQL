@@ -51,6 +51,7 @@ describe('shieldqlConfig unit tests', () => {
     // read env file again
     fs.readFileSync(envSource, 'utf8', async (err, data) => {
       try {
+        if (err) console.log(err);
         // init const nextEnv to store parsed (into JS object) env file contents
         const nextEnv = await parse(data);
         // reassign nextRefreshSecret to current refresh secret in .env file
