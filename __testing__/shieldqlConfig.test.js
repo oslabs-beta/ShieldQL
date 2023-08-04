@@ -67,7 +67,6 @@ describe('shieldqlConfig unit tests', () => {
         expect(nextRefreshSecret).toEqual(prevRefreshSecret);
       } catch (err) {
         return console.log(err);
-        // return console.log(err);
       }
     });
     expect(nextRefreshSecret).toEqual(prevRefreshSecret);
