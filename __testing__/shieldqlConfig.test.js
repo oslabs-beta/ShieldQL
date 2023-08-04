@@ -10,46 +10,46 @@ require('dotenv').config();
 
 // init const envSource as path to env file
 const envSource = path.resolve(__dirname, '.env');
-const envTestSource = path.resolve(__dirname, '.env.test');
+// const envTestSource = path.resolve(__dirname, 'test.env');
 
-describe('createSecret unit tests', () => {
+describe('shieldqlConfig unit tests', () => {
   // before any tests are run:
   beforeAll(() => {
     // if env test file exists, throw error with warning
-    if (envTestSource) {
-      throw new Error(
-        'Potentially unsaved changes, copy any env.test file contents into env file and delete env file before proceeding'
-      );
-    }
+    // if (envTestSource) {
+    //   throw new Error(
+    //     'Potentially unsaved changes, copy any env.test file contents into env file and delete env file before proceeding'
+    //   );
+    // }
     // If env file exists:
-    if (envSource) {
-      // create copy of env file
-      fs.readFile(envSource, 'utf8', (err, envContents) => {
-        // if error, throw error
-        if (err) throw `Error reading env file: ${err}`;
-        console.log('Read env test file');
-        // store env file contents in .env.test file (just in case)
-        fs.writeFile('.env.test', envContents, (err) => {
-          if (err) throw `Error copying env file: ${err}`;
-          console.log('Created env copy at .env.test');
-        });
-      });
-    } else {
-      // if no env file exists, create new env file
-      fs.writeFile('.env', 'Hello="New test env file"', (err) => {
-        if (err) throw `Error copying env file: ${err}`;
-        console.log('Created env copy at .env.test');
-      });
-      // update envSource to env file path
-      envSource = path.resolve(__dirname, '.env');
-    }
+    // if (envSource) {
+    //   // create copy of env file
+    //   fs.readFile(envSource, 'utf8', (err, envContents) => {
+    //     // if error, throw error
+    //     if (err) throw `Error reading env file: ${err}`;
+    //     console.log('Read env test file');
+    //     // store env file contents in test.env file (just in case)
+    //     fs.writeFileSync('test.env', envContents, (err) => {
+    //       if (err) throw `Error copying env file: ${err}`;
+    //       console.log('Created env copy at test.env');
+    //     });
+    //   });
+    // } else {
+    // if no env file exists, create new env file
+    fs.writeFile('.env', 'Hello="New test env file"', (err) => {
+      if (err) throw `Error copying env file: ${err}`;
+      console.log('Created env copy at test.env');
+    });
+    // update envSource to env file path
+    envSource = path.resolve(__dirname, '.env');
+    // }
   });
   // clear env file contents
   // beforeEach(() => {
   //   console.log('Before each:');
   //   fs.writeFile('.env', 'Hello=New test env file', (err) => {
   //     if (err) throw `Error copying env file: ${err}`;
-  //     console.log('Created env copy at .env.test');
+  //     console.log('Created env copy at test.env');
   //   });
   // });
   // once all tests are done, update env file contents to copy stored at test env file
@@ -59,16 +59,16 @@ describe('createSecret unit tests', () => {
       // if error, throw error
       if (err) throw `Error reading env file: ${err}`;
       console.log('Read env test file');
-      // store env file contents in .env.test file (just in case)
-      fs.writeFile('.env.test', envContents, (err) => {
+      // store env file contents in test.env file (just in case)
+      fs.writeFile('test.env', envContents, (err) => {
         if (err) throw `Error copying env file: ${err}`;
-        console.log('Created env copy at .env.test');
+        console.log('Created env copy at test.env');
       });
     });
     // create new env file
     fs.writeFile('.env', 'Hello="New test env file"', (err) => {
       if (err) throw `Error copying env file: ${err}`;
-      console.log('Created env copy at .env.test');
+      console.log('Created env copy at test.env');
     });
     // update envSource to env file path
     envSource = path.resolve(__dirname, '.env');

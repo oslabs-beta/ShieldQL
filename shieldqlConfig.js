@@ -4,8 +4,15 @@ const path = require('path');
 const encrypt = require('crypto');
 // import parse and stringify functionality from envfile library
 const { parse, stringify } = require('envfile');
-// import path to env file as envSource
-const envSource = path.resolve(__dirname, '../../.env');
+
+// NOTE: want to conditionally assign envSource to either a new env file in the testing folder or the env file in the parent directory
+
+// initialize as envSource the path to the env file (or test file) depending on whether tests are being run
+const envSource =
+  process.env.NODE_ENV === 'test'
+    ? path.resolve(__dirname, '.__testing__/.env')
+    : path.resolve(__dirname, '../../.env');
+
 // import object containing user-configured GraphQL roles and corresponding permissions from the shieldql.json file as permissions
 const permissions = require(path.resolve(__dirname, '../../shieldql.json'));
 
