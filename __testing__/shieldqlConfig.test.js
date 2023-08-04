@@ -14,12 +14,12 @@ const envSource = path.resolve(__dirname, './.env');
 describe('shieldqlConfig unit tests', () => {
   // clear env file contents
   beforeEach(() => {
-    fs.writeFile(envSource, 'Hello=Reset env file', (err) => {
+    fs.writeFile(envSource, '', (err) => {
       if (err) throw `Error clearing env file: ${err}`;
     });
   });
   // once all tests are done, delete test env file
-  afterAll(() => {
+  afterEach(() => {
     // create new env file
     fs.writeFileSync(envSource, '', (err) => {
       if (err) throw `Error clearing env file: ${err}`;
@@ -28,9 +28,7 @@ describe('shieldqlConfig unit tests', () => {
 
   it('should not add a new refresh token secret if one already exists in the env file', async () => {
     // init variables prevRefreshSecret and nextRefreshSecret
-    let prevRefreshSecret,
-      nextRefreshSecret,
-      prevProcessEnv = process.env.REFRESH_TOKEN_SECRET;
+    let prevRefreshSecret, nextRefreshSecret;
     // read env file
     fs.readFileSync(envSource, 'utf8', (err, data) => {
       // if error reading file log error
@@ -53,6 +51,10 @@ describe('shieldqlConfig unit tests', () => {
       // if error reading file log error
     });
     expect(nextRefreshSecret).toEqual(prevRefreshSecret);
+  });
+  it('should not modify process.env value of refresh token secret', () => {
+    let prevProcessEnv = process.env.REFRESH_TOKEN_SECRET;
+    shieldqlConfig();
     expect(prevProcessEnv).toEqual(process.env.REFRESH_TOKEN_SECRET);
   });
   xit('should create new secrets in env file if none existed before', () => {});
