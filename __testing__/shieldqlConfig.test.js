@@ -39,14 +39,13 @@ describe('shieldqlConfig unit tests', () => {
         } catch (err) {
           return console.log(err);
         }
-        try {
-          // reassign prevRefreshSecret to current refresh secret in .env file
-          prevRefreshSecret = prevEnv['REFRESH_TOKEN_SECRET'];
-          // if error reading file log error
-        } catch (err) {
-          return console.log(err);
-        }
+        // reassign prevRefreshSecret to current refresh secret in .env file
+        prevRefreshSecret = prevEnv['REFRESH_TOKEN_SECRET'];
+        // if error reading file log error
       });
+    } catch (err) {
+      return console.log(err);
+    }
     // invoke shieldqlConfig
     shieldqlConfig();
     // read env file again
