@@ -15,6 +15,10 @@ const sanitize = (input, strict = false, maxDepth = 10, maxLength = 2000) => {
       '1=1',
       `' OR`,
       'select sqlite_version()',
+      '@skip',
+      '@@version',
+      'DROP TABLE',
+      'UNION SELECT null',
       'SELECT sql FROM sqlite_schema',
       `SELECT group_concat(tbl_name) FROM sqlite_master WHERE type='table' and tbl_name NOT like 'sqlite_%'`,
       // common HTML injection fragments
