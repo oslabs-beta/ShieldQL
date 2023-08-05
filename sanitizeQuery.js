@@ -3,16 +3,16 @@ const { sanitize } = require('./sanitize.js');
 // sanitizeQuery is an Express middleware function users will require and invoke in their applications to sanitize graphQL queries
 const sanitizeQuery = async (req, res, next) => {
   try {
-    // handle edge case of req.body.query being undefined or null
-    if (!req.body.query) {
+    // Enforce string type for req.body.query
+    if (typeof req.body.query !== 'string') {
       return next({
-        log: `Error at shieldQL sanitizeQuery, req.body.query is null or undefined`,
-        status: 400,
-        message: 'There is something wrong with this query',
+        log: `Error at shieldQL sanitizeQuery, req.body.query must be a string`,
+        status: 500,
+        message: 'Internal server error',
       });
     }
     // build graphqlQuery for sanitization
-    const graphqlQuery = JSON.stringify(req.body.query);
+    let graphqlQuery = req.body.query;
     if (req.body.variables) graphqlQuery += JSON.stringify(req.body.variables);
     // init paramsArr, an array that will store all args to be passed into the sanitize helper function, with single element input query
 
