@@ -7,7 +7,7 @@ const loginLink = (req, res, next) => {
     const accessToken = jwt.sign(
       { role: res.locals.role },
       process.env[secretToken],
-      { expiresIn: '15000' }
+      { expiresIn: '1d' }
     );
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
