@@ -17,6 +17,7 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
     - maxDepthShieldQL: (default 10) integer that establishes the upper bound for the maximum depth of a graphQL query
     - maxLengthShieldQL: (default 2000) integer that establishes the upper bound for total characters in a graphQL query
 - loginLink:
+  - NOTE: Access token expires after one day
 - createSecrets:
 - sanitizeQuery:
 
