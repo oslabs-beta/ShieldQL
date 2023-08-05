@@ -5,8 +5,6 @@ const encrypt = require('crypto');
 // import parse and stringify functionality from envfile library
 const { parse, stringify } = require('envfile');
 
-// NOTE: want to conditionally assign envSource to either a new env file in the testing folder or the env file in the parent directory
-
 // initialize as envSource the path to the env file (or test file) depending on whether tests are being run
 const envSource =
   process.env.NODE_ENV === 'test'
