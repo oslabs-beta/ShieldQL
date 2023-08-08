@@ -75,7 +75,7 @@ const deepLimit = (input, depth) => {
   return input;
 };
 
-// init helper func deepLimit that accepts two params, input (a JSON string graphQL query) and length (a number value) and throws an error if the passed-in input has a length greater than length, else returns input
+// init helper func lengthLimit that accepts two params, input (a JSON string graphQL query) and length (a number value) and throws an error if the passed-in input has a length greater than length, else returns input
 const lengthLimit = (input, length) => {
   // if input length exceeds passed-in param length, throw new Error
   if (input.length > length)
