@@ -48,8 +48,8 @@ describe('shieldqlConfig unit tests', () => {
       const nextEnv = await parse(data);
       // reassign nextRefreshSecret to current refresh secret in .env file
       nextRefreshSecret = nextEnv['REFRESH_TOKEN_SECRET'];
-      // if error reading file log error
     });
+    // there should not be a change in the refresh secret stored in the .env file
     expect(nextRefreshSecret).toEqual(prevRefreshSecret);
   });
   it('should not modify process.env value of refresh token secret', () => {
