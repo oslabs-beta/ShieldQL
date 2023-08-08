@@ -11,12 +11,13 @@ const sanitizeQuery = async (req, res, next) => {
         message: 'Internal server error',
       });
     }
-    // build graphqlQuery for sanitization
+    // build graphqlQuery string for sanitization by combining req.body.query with req.body.variables
     let graphqlQuery = req.body.query;
     if (req.body.variables) graphqlQuery += JSON.stringify(req.body.variables);
-    // init paramsArr, an array that will store all args to be passed into the sanitize helper function, with single element input query
 
+    // init paramsArr, an array that will store all args to be passed into the sanitize helper function, with single element input query
     const paramsArr = [graphqlQuery];
+
     // check if result (the .env file) contains any params for strict, maxLength, and maxDepth
     paramsArr.push(
       process.env.strictShieldQL ? process.env.strictShieldQL : false
@@ -27,10 +28,13 @@ const sanitizeQuery = async (req, res, next) => {
     paramsArr.push(
       process.env.maxLengthShieldQL ? process.env.maxLengthShieldQL : 2000
     );
+
     // reassign query property of req.body to the sanitized query with passed-in config from env file
     graphqlQuery = sanitize(...paramsArr);
+
     // move to next link in middleware chain
     return next();
+
     // if error sanitizing query, invoke global error handler
   } catch (err) {
     return next({
