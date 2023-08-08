@@ -17,6 +17,7 @@ const loginLink = (req, res, next) => {
     });
     // move on to next step in middleware chain
     return next();
+    // if there is an error, invoke the global error handler
   } catch (err) {
     return next({
       log: `Express error ${err}. ROLE NOT FOUND`,
