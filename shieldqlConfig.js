@@ -17,7 +17,7 @@ const permissions =
     ? require(path.resolve(__dirname, './__testing__/shieldql.json'))
     : require(path.resolve(__dirname, '../../shieldql.json'));
 
-// init func shieldqlConfig that accepts 3 params: strictShieldQL (bool), maxDepthShieldQL (number), maxLengthShieldQL (number) and creates new secrets and sanitizeQuery params properties in both the env file and the process.env object
+// shieldqlConfig is a function that accepts 3 params: strictShieldQL (bool), maxDepthShieldQL (number), maxLengthShieldQL (number) and creates new secrets and sanitizeQuery params properties in both the env file and the process.env object
 const shieldqlConfig = (
   strictShieldQL = false,
   maxDepthShieldQL = 10,
@@ -27,6 +27,7 @@ const shieldqlConfig = (
   const roles = Object.keys(permissions).map(
     (role) => `ACCESS_TOKEN_${role.toUpperCase()}_SECRET`
   );
+
   // read env file
   fs.readFile(envSource, 'utf8', (err, data) => {
     // if error reading file log error
