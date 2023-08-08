@@ -7,7 +7,7 @@ const sanitize = (input, strict = false, maxDepth = 10, maxLength = 2000) => {
   // check if input is longer than maxLength
   lengthLimit(input, maxLength);
   // if function is being run on strict mode
-  if (strict) {
+  if (strict && strict !== 'false') {
     // allowlisting is an option we are not currently pursuing, but could help further secure our queries
     // init const blockList as arr of potentially malicious fragments (strings)
     const blockList = [

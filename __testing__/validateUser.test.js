@@ -1,0 +1,4 @@
+//
+describe('validateUser unit tests', () => {
+  //
+});
