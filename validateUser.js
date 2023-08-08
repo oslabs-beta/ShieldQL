@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const permissions = require(path.resolve(__dirname, '../../shieldql.json'));
 
+// validateUser is an Express middleware function that verifies that the client making a graphQL query or mutation is authorized to do so through jwt verification
+// this function assumes that res.locals.role has already been populated with the user's role (that matches roles defined in the shieldql.json file) by a previous middleware function
 const validateUser = (req, res, next) => {
   // pull out access token from cookies
   const accessToken = req.cookies.accessToken;
@@ -31,6 +33,7 @@ const validateUser = (req, res, next) => {
 
     const fieldString = query.split('{\n')[1].trim();
     let field = '';
+    // traverse fieldString until the first opening bracket or parenthesis to identify the query type
     for (let i = 0; i < fieldString.length; i++) {
       // accumulate to the field
       if (
@@ -41,7 +44,7 @@ const validateUser = (req, res, next) => {
         break;
       field += fieldString[i];
     }
-
+    // if the user role was not included on the shieldql.json file, invoke global error handler
     if (!permissions[decoded.role]) {
       return next({
         log: 'Express error: user role does not exist on the shieldql.json file',
@@ -51,7 +54,7 @@ const validateUser = (req, res, next) => {
     }
 
     const fieldArray = permissions[decoded.role][operation];
-    // error message is triggered if the client request includes an unauthorized operation or unauthorized field
+    // global error handler is triggered if the client request includes an unauthorized operation or unauthorized field
     if (
       !fieldArray ||
       (!fieldArray.includes('.') && !fieldArray.includes(field))
@@ -62,7 +65,7 @@ const validateUser = (req, res, next) => {
         message: { err: 'INVALID AUTHORIZATION' },
       });
     }
-
+    // if no errors exist, move on to next link in Express middleware chain
     return next();
   });
 };

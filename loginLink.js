@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-// loginLink is an express middleware function that verifies that the client making a graphQL query or mutation is authorized to do so through jwt verification
+// loginLink is an express middleware function that authenticates the client, creates a jwt access token, and stores it as a cookie on the client's browser to authorize future graphQL queries and mutations aligned with the user's role-based permissions described in the shieldql.json file
 const loginLink = (req, res, next) => {
   const secretToken = `ACCESS_TOKEN_${res.locals.role.toUpperCase()}_SECRET`;
   try {
