@@ -16,12 +16,11 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
     - strictShieldQL: (default false) boolean value that determines whether or not sanitizeQuery will be run on strict mode or not
     - maxDepthShieldQL: (default 10) integer that establishes the upper bound for the maximum depth of a graphQL query
     - maxLengthShieldQL: (default 2000) integer that establishes the upper bound for total characters in a graphQL query
-- loginLink:
+- loginLink: 
   - NOTE: Access token expires after one day
 - createSecrets:
 - sanitizeQuery:
 - validateUser: Express middleware function that verifies that the client making a graphQL query or mutation is authorized to do so through jwt verification
-
   - Assumes that res.locals.role has already been populated with the user's role (that matches roles defined in the shieldql.json file) by a previous middleware function
 
 - SanitizeQuery works even if shieldqlConfig is never invoked, although if used without shieldqlConfig, default parameters will be used (strictmode set to false, maxDepth set to 10, maxLength set to 2000)
