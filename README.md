@@ -10,17 +10,18 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
 
 ## Features
 
-- shieldqlConfig: A Javascript function that allows you to configure sanitizeQuery parameters and creates a secret for each role in the shieldql.json file, storing all of this information in the .env file
-  - Where to use: Recommended use is next to importation of shieldQL functionality in main server file (similar to dotenv.config()), NOT in any
-  - Accepts 3 parameters:
+- shieldqlConfig: A Javascript function that allows you to configure sanitizeQuery parameters and creates a secret for each role in the shieldql.json file, storing all of this information in the .env file and the process.env object
+  - Where to use: Recommended use is next to importation of shieldQL functionality in main server file (similar to dotenv.config())
+  - shieldqlConfig accepts 3 params: strictShieldQL (a boolean), maxDepthShieldQL (a number), and maxLengthShieldQL (a number), which are used to configure sanitizeQuery (see sanitizeQuery for more details)
     - strictShieldQL: (default false) boolean value that determines whether or not sanitizeQuery will be run on strict mode or not
-    - maxDepthShieldQL: (default 10) integer that establishes the upper bound for the maximum depth of a graphQL query
-    - maxLengthShieldQL: (default 2000) integer that establishes the upper bound for total characters in a graphQL query
-- loginLink: 
+    - maxDepthShieldQL: (default 10) number that establishes the upper bound for the maximum depth of a graphQL query
+    - maxLengthShieldQL: (default 2000) number that establishes the upper bound for total characters in a graphQL query
+- loginLink: Express middleware function that authenticates the client, creates a jwt access token, and stores it as a cookie on the client's browser to authorize future graphQL queries and mutations aligned with the user's role-based permissions described in the shieldql.json file
   - NOTE: Access token expires after one day
 - createSecrets:
 - sanitizeQuery:
 - validateUser: Express middleware function that verifies that the client making a graphQL query or mutation is authorized to do so through jwt verification
+
   - Assumes that res.locals.role has already been populated with the user's role (that matches roles defined in the shieldql.json file) by a previous middleware function
 
 - SanitizeQuery works even if shieldqlConfig is never invoked, although if used without shieldqlConfig, default parameters will be used (strictmode set to false, maxDepth set to 10, maxLength set to 2000)
@@ -40,21 +41,20 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
 
 ```javascript
 {
-  "superadmin": {
-    "query": ["."],
-    "mutation": ["."]
-  },
   "admin": {
     "query": ["."],
     "mutation": ["."]
   },
-  "non-admin": {
-    "query": ["."]
+  "user": {
+    "query": ["feed", "news"]
+  },
+  "job-applicant": {
+    "query": ["job-description"]
   }
 }
 ```
 
-- roles need to be passed in res.locals.role
+- NOTE: shieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink and validateUser through res.locals.role
 
 ## Installation
 
