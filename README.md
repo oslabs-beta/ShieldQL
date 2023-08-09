@@ -1,7 +1,7 @@
-<header align="center">
+<h1 align="center">
   <img width="100"  src="./assets/shieldQL.png">
-  <h1>ShieldQL 🛡️</h1>
-</header>
+  <br>ShieldQL 🛡️</br>
+</h1>
 
 <!-- ![ShieldQL logo](assets/shieldQL.png) -->
 
