@@ -89,7 +89,7 @@ app.post(
   shieldql.sanitizeQuery,
   populateResLocalsRole, // populateResLocalsRole is an Express Middleware function that populates res.locals.role with the user's graphql.json role
   shieldql.loginLink,
-  shieldql.validateToken,
+  shieldql.validateUser,
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
