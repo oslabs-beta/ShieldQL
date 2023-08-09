@@ -13,7 +13,8 @@ const sanitizeQuery = async (req, res, next) => {
     }
     // build graphqlQuery string for sanitization by combining req.body.query with req.body.variables
     let graphqlQuery = req.body.query;
-    if (req.body.variables) graphqlQuery += JSON.stringify(req.body.variables);
+    // remove the beginning and ending brackets from the stringified JSON object to avoid unnecessarily triggering {" in blocklist
+    if (req.body.variables) graphqlQuery += JSON.stringify(req.body.variables).slice(1, -1);
 
     // init paramsArr, an array that will store all args to be passed into the sanitize helper function, with single element input query
     const paramsArr = [graphqlQuery];
