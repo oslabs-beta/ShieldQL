@@ -64,12 +64,12 @@
 }
 ```
 
-- Ensure that the appropriate graphQL role from the shieldqlConfig.js file is passed into the graphQL route through **res.locals.role** in order for validateUser and loginLink to enforce authentication and authorization
+- Ensure that the appropriate graphQL role from the shieldqlConfig.js file is passed into the graphQL route through **res.locals.role** in order for loginLink to enforce authentication and authorization
 
   - This will be passed on to each of ShieldQL's middleware functions
   - A common approach to this problem is the following (see below for an example)
 
-    - Insert a middleware function preceding validateUser and loginLink that queries the user database
+    - Insert a middleware function preceding loginLink that queries the user database
     - Extracts the graphQL role
     - Stores it in **res.locals.role**
 
@@ -144,9 +144,11 @@ Following Meta's lead with React, we have adopted the [Contributor Covenant](htt
 - **Siful Siddiki** | [LinkedIn](https://www.linkedin.com/in/siful-siddiki/) | [GitHub](https://github.com/sifulsidd)
 - **Joie Zhang** | [LinkedIn](https://www.linkedin.com/in/joie-zhang/) | [GitHub](https://github.com/joie-zhang)
 
-Inspired by [graphQLock](https://github.com/oslabs-beta/graphQLock). _ShieldQL is ISC licensed_
+Inspired by [graphQLock](https://github.com/oslabs-beta/graphQLock).
 
 ## License
+
+_ShieldQL is ISC licensed._
 
 Thank you for using ShieldQL! We hope this library helps you secure your GraphQL APIs effectively. If you encounter any issues or need further assistance, please don't hesitate to reach out to us.
 
