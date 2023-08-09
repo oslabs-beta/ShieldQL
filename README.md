@@ -31,7 +31,10 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
 - Make sure dotenv has been imported, that it is properly configured, and that a .env file already exists
 - Ensure that the .env file is in the root directory
 
-- Create a shieldqlql.json file in root directory. This file will define the roles and permissions
+**Screenshot with sample app root directory goes here**
+
+- Create a shieldqlql.json file in root directory. This file will define the roles and permissions that will be enforced throughout the user's graphQL application.
+  - E.g.:
 
 ```javascript
 {
@@ -48,17 +51,22 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
 }
 ```
 
-  <!-- - User MUST pass in the user graphQL role in the auth route as #res.locals.role# -->
-
 - Ensure that the appropriate graphQL role from the shieldqlConfig.js file is passed into the graphQL route in order for validateToken and loginLink to enforce authentication and authorization
 
   - This will be passed on to each of shieldQL's middleware functions
   - A common approach to this problem is the following (see below for an example)
+
     - Insert a middleware function preceding validateToken and loginLink that queries the user database
     - Extracts the graphQL role
     - Stores it in res.locals.role
 
-- NOTE: shieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink and validateUser through res.locals.role
+  - NOTE: shieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink and validateUser through res.locals.role
+
+```javascript
+(req, res, next) => {
+  res.locals.role = ;
+};
+```
 
 ## Installation
 
