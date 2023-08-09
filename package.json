@@ -1,7 +1,7 @@
 {
   "name": "shieldql",
   "private": false,
-  "version": "0.0.12",
+  "version": "1.0.0",
   "type": "commonjs",
   "scripts": {
     "test": "jest --detectOpenHandles"
