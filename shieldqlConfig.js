@@ -4,12 +4,20 @@ const path = require('path');
 const encrypt = require('crypto');
 // import parse and stringify functionality from envfile library
 const { parse, stringify } = require('envfile');
-// import path to env file as envSource
-const envSource = path.resolve(__dirname, '../../.env');
-// import object containing user-configured GraphQL roles and corresponding permissions from the shieldql.json file as permissions
-const permissions = require(path.resolve(__dirname, '../../shieldql.json'));
 
-// init func shieldqlConfig that accepts 3 params: strictShieldQL (bool), maxDepthShieldQL (number), maxLengthShieldQL (number) and creates new secrets and sanitizeQuery params properties in both the env file and the process.env object
+// initialize as envSource the path to the env file (or test file) depending on whether tests are being run
+const envSource =
+  process.env.NODE_ENV === 'test'
+    ? path.resolve(__dirname, './__testing__/.env')
+    : path.resolve(__dirname, '../../.env');
+
+// import object containing user-configured GraphQL roles and corresponding permissions from the shieldql.json file as permissions
+const permissions =
+  process.env.NODE_ENV === 'test'
+    ? require(path.resolve(__dirname, './__testing__/shieldql.json'))
+    : require(path.resolve(__dirname, '../../shieldql.json'));
+
+// shieldqlConfig is a function that accepts 3 params: strictShieldQL (bool), maxDepthShieldQL (number), maxLengthShieldQL (number) and creates new secrets and sanitizeQuery params properties in both the env file and the process.env object
 const shieldqlConfig = (
   strictShieldQL = false,
   maxDepthShieldQL = 10,
@@ -19,6 +27,7 @@ const shieldqlConfig = (
   const roles = Object.keys(permissions).map(
     (role) => `ACCESS_TOKEN_${role.toUpperCase()}_SECRET`
   );
+
   // read env file
   fs.readFile(envSource, 'utf8', (err, data) => {
     // if error reading file log error

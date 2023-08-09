@@ -1,4 +1,4 @@
-// import sanitize function
+// import sanitize function from sanitize.js
 const { sanitize } = require('../sanitize.js');
 
 describe('sanitize unit tests', () => {
@@ -54,7 +54,7 @@ describe('sanitize unit tests', () => {
     expect(() => sanitize(shallowQuery)).not.toThrowError();
   });
   it('Should allow user to customize depth limit', () => {
-    // init mock deepQuery string
+    // deepQuery is a mock deep query string
     const deepQuery = `query maliciousQuery {
       thread(id: "some-id") {
         messages(first: 99999) {
@@ -90,7 +90,7 @@ describe('sanitize unit tests', () => {
         }
       }
     }`;
-    // init mock shallowQuery string
+    // shallowQuery is a mock shallow query string
     const shallowQuery = `query friendlyQuery {
       thread(id: "some-id") {
         messages(first: 10) {
@@ -104,13 +104,13 @@ describe('sanitize unit tests', () => {
     expect(() => sanitize(shallowQuery, false, 1)).toThrowError();
   });
   it('Should throw an error if a query is above the length limit', () => {
-    // init mock longQuery (>2000 characters)
+    // longQuery is a very long mock query string (>2000 characters)
     const longQuery =
       'init sanitize, a function that accepts 4 params input (required, a graphQL query type string), strict (a bool value, default false, that enables additional query sanitization), maxDepth (the maximum query nesting depth permitted, type integer), and maxLength (maximum permitted query length, type integer) that users will require and invoke in their applications to sanitize the passed-in queryinit sanitize, a function that accepts 4 params input (required, a graphQL query type string), strict (a bool value, default false, that enables additional query sanitization), maxDepth (the maximum query nesting depth permitted, type integer), and maxLength (maximum permitted query length, type integer) that users will require and invoke in their applications to sanitize the passed-in queryinit sanitize, a function that accepts 4 params input (required, a graphQL query type string), strict (a bool value, default false, that enables additional query sanitization), maxDepth (the maximum query nesting depth permitted, type integer), and maxLength (maximum permitted query length, type integer) that users will require and invoke in their applications to sanitize the passed-in queryinit sanitize, a function that accepts 4 params input (required, a graphQL query type string), strict (a bool value, default false, that enables additional query sanitization), maxDepth (the maximum query nesting depth permitted, type integer), and maxLength (maximum permitted query length, type integer) that users will require and invoke in their applications to sanitize the passed-in queryinit sanitize, a function that accepts 4 params input (required, a graphQL query type string), strict (a bool value, default false, that enables additional query sanitization), maxDepth (the maximum query nesting depth permitted, type integer), and maxLength (maximum permitted query length, type integer) that users will require and invoke in their applications to sanitize the passed-in queryinit sanitize, a function that accepts 4 params input (required, a graphQL query type string), strict (a bool value, default false, that enables additional query sanitization), maxDepth (the maximum query nesting depth permitted, type integer), and maxLength (maximum permitted query length, type integer) that users will require and invoke in their applications to sanitize the passed-in query';
-    // init mock shortQuery (< 2000 characters)
+    // shortQuery is a short mock query string (< 2000 characters)
     const shortQuery =
       'init sanitize, a function that accepts 4 params input (required, a graphQL query type string), strict (a bool value, default false, that enables additional query sanitization), maxDepth (the maximum query nesting depth permitted, type integer), and maxLength (maximum permitted query length, type integer) that users will require and invoke in their applications to sanitize the passed-in query';
-    // should throw error if query is longer than default (2000 characters) if no arg is passed in for maxLength
+    // should throw error if query is longer than default (2000 characters) when default parameters are used (no arg is passed in for maxLength)
     expect(() => sanitize(longQuery)).toThrowError();
     expect(() => sanitize(shortQuery)).not.toThrowError();
   });
@@ -279,7 +279,6 @@ describe('sanitize unit tests', () => {
     `,
     ];
     // sanitize should throw an error if a query with a potentially malicious fragment is passed in and strict mode is on
-    //
     dangerousQueries.forEach((maliciousQuery) => {
       expect(() => sanitize(maliciousQuery, true)).toThrowError();
     });

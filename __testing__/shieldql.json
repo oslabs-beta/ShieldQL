@@ -1,13 +1,13 @@
 {
-  "superadmin": {
+  "Rock": {
     "query": ["."],
     "mutation": ["."]
   },
-  "admin": {
+  "Paper": {
     "query": ["."],
     "mutation": ["."]
   },
-  "non-admin": {
+  "Scissors": {
     "query": ["."]
   }
 }
