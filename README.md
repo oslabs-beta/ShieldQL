@@ -11,7 +11,7 @@
 
 ## Features
 
-- **shieldqlConfig:** A Javascript function that allows you to configure sanitizeQuery parameters and creates a secret for each role in the shieldql.json file, storing all of this information in the .env file and the process.env object
+- **shieldqlConfig:** A Javascript function that allows you to configure how sanitizeQuery will restrict queries and creates a secret for each role in the shieldql.json file, storing all of this information in the .env file and the process.env object
 
   - Where to use: Recommended use is next to importation of ShieldQL functionality in main server file (similar to dotenv.config())
   - shieldqlConfig accepts 3 params: strictShieldQL (a boolean), maxDepthShieldQL (a number), and maxLengthShieldQL (a number), which are used to configure sanitizeQuery (see sanitizeQuery for more details)
