@@ -11,8 +11,6 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL 
 - **Authorization:** With ShieldQL, you can define granular access controls for different types and fields in your GraphQL schema. This way, you can control what data each user can access based on their role and permissions.
 - **Query Sanitization:** ShieldQL gives you the tools to sanitize incoming GraphQL queries to prevent potential malicious operations and protect your backend from excessively deep and excessively long queries used in denial-of-service attacks.
 
-# NOTE: ShieldQL is still in development. We will officially launch on Thursday 8/10 :rocket:
-
 ## Features
 
 - **shieldqlConfig:** A Javascript function that allows you to configure sanitizeQuery parameters and creates a secret for each role in the shieldql.json file, storing all of this information in the .env file and the process.env object
@@ -59,14 +57,14 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL 
 }
 ```
 
-- Ensure that the appropriate graphQL role from the shieldqlConfig.js file is passed into the graphQL route through res.locals.role in order for validateToken and loginLink to enforce authentication and authorization
+- Ensure that the appropriate graphQL role from the shieldqlConfig.js file is passed into the graphQL route through **res.locals.role** in order for validateToken and loginLink to enforce authentication and authorization
 
   - This will be passed on to each of ShieldQL's middleware functions
   - A common approach to this problem is the following (see below for an example)
 
     - Insert a middleware function preceding validateToken and loginLink that queries the user database
     - Extracts the graphQL role
-    - Stores it in res.locals.role
+    - Stores it in **res.locals.role**
 
 ```javascript
 (req, res, next) => {
@@ -74,7 +72,7 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL 
 };
 ```
 
-- NOTE: ShieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink and validateUser through res.locals.role :shipit:
+- NOTE: ShieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink and validateUser through **res.locals.role** :shipit:
 
 ## Installation
 
@@ -87,8 +85,6 @@ npm i shieldql
 While ShieldQL offers essential security features, it's crucial to keep your application and dependencies up to date to stay protected against emerging security threats. Always follow best practices for securing your GraphQL APIs.
 
 ## Future direction
-
-**What advantages await developers who contribute to ShieldQL?**
 
 - allowListing configuration and implementation for sanitize.js
 - Amount limiting (limiting number of times a query can be called)
@@ -134,7 +130,7 @@ Following Meta's lead with React, we have adopted the [Contributor Covenant](htt
 
 ## License
 
-Inspired by [graphQLock](https://github.com/oslabs-beta/graphQLock). ShieldQL is ISC licensed
+Inspired by [graphQLock](https://github.com/oslabs-beta/graphQLock). _ShieldQL is ISC licensed_
 
 Thank you for using ShieldQL! We hope this library helps you secure your GraphQL APIs effectively. If you encounter any issues or need further assistance, please don't hesitate to reach out to us.
 
