@@ -27,8 +27,17 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL 
 
   - Assumes that res.locals.role has already been populated with the user's role (that matches roles defined in the shieldql.json file) by a previous middleware function
 
-- **sanitizeQuery:**
+- **sanitizeQuery:** Express middleware function users will require and invoke in their applications to sanitize graphQL queries
+
   - sanitizeQuery works even if shieldqlConfig is never invoked, although if used without shieldqlConfig, default parameters will be used (strictmode set to false, maxDepth set to 10, maxLength set to 2000)
+
+- **sanitize:** Pure function users can require and invoke in their applications to sanitize the passed-in query.
+  - Accepts 4 params:
+    - input (required, a graphQL query type string)
+    - strict (a bool value, default false, that enables additional query sanitization)
+    - maxDepth (the maximum query nesting depth permitted, type integer)
+    - maxLength (maximum permitted query length, type integer) that
+  - Can be used as a standalone function and is also invoked within the body of the sanitizeQuery function
 
 ## Setup
 
@@ -70,19 +79,18 @@ const shieldQL = require('shieldql');
 
 const app = express();
 
-app.post('graphQL',
-populateResLocalsRole,  // populateResLocalsRole is an Express Middleware function that populates res.locals.role with the user's graphql.json role
-shieldQL.sanitizeQuery,
-shieldQL.loginLink,
-shieldQL.validateToken,
-graphqlHttp({
-  schema: graphQlSchema,
-  rootValue: graphQlResolvers,
-  graphiql: true,
-})
-(req, res) => {
-  return res.status(200).json(res.locals.desiredoutput)
-});
+app.post(
+  'graphQL',
+  populateResLocalsRole, // populateResLocalsRole is an Express Middleware function that populates res.locals.role with the user's graphql.json role
+  shieldQL.sanitizeQuery,
+  shieldQL.loginLink,
+  shieldQL.validateToken,
+  graphqlHttp({
+    schema: graphQlSchema,
+    rootValue: graphQlResolvers,
+    graphiql: true,
+  })
+);
 ```
 
 - NOTE: ShieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink and validateUser through **res.locals.role** :shipit:
