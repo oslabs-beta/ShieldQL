@@ -1,0 +1,13 @@
+{
+  "Rock": {
+    "query": ["."],
+    "mutation": ["."]
+  },
+  "Paper": {
+    "query": ["."],
+    "mutation": ["."]
+  },
+  "Scissors": {
+    "query": ["."]
+  }
+}
