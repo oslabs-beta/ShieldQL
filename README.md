@@ -34,7 +34,7 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL 
 - Make sure dotenv has been imported, that it is properly configured, and that a .env file already exists
 - Ensure that the .env file is in the root directory
 
-**Screenshot with sample app root directory goes here**
+![Screenshot of sample demo app directory.](assets/sample_directory.png)
 
 - Create a shieldql.json file in root directory. This file will define the roles and permissions that will be enforced throughout the user's graphQL application.
   - E.g.:
@@ -69,7 +69,7 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL 
 };
 ```
 
-- NOTE: ShieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink and validateUser through res.locals.role
+- NOTE: ShieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink and validateUser through res.locals.role :shipit:
 
 ## Installation
 
@@ -79,40 +79,35 @@ npm i shieldql
 
 ## Future direction
 
+Intro text blurb and list with future direction areas
+
+- Due to the fact that our product is a library, incorporate end-to-end testing
+-
+- future contribution area3
+- future contribution area4
+- future contribution area5
+
 ## Contribution guidelines
+
+Insert contribution snippet here with instructions on how to contribute
 
 ## Contributors
 
 - Rodrigo S. Calderon
-  - [LinkedIn] (https://github.com/rscalderon)
-  - GitHub
-- Simran Kaur []
-  - LinkedIn
-  - GitHub
-- Xin Jin Qiu []
-  - LinkedIn
-  - GitHub
+  - [LinkedIn](https://www.linkedin.com/in/rodrigosamourcalderon/)
+  - [GitHub](https://github.com/rscalderon)
+- Simran Kaur
+  - [LinkedIn](https://www.linkedin.com/in/simran-kaur-nyc/)
+  - [GitHub](https://github.com/simk209)
+- Xin Jin Qiu
+  - [LinkedIn](https://www.linkedin.com/in/xinjinqiu/)
+  - [GitHub](https://github.com/xjqiu28)
 - Siful Siddiki
-  - [LinkedIn ()]
-  - GitHub
-- Joie Zhang []
-
-  - LinkedIn
-  - GitHub
-
-  const githubs = [
-  'https://github.com/joie-zhang',
-  '',
-  'https://github.com/sifulsidd',
-  'https://github.com/simk209',
-  'https://github.com/xjqiu28',
-  ];
-  const linkedins = [
-  'https://www.linkedin.com/in/joie-zhang/',
-  'https://www.linkedin.com/in/rodrigosamourcalderon/',
-  'https://www.linkedin.com/in/siful-siddiki/',
-  'https://www.linkedin.com/in/simran-kaur-nyc/',
-  'https://www.linkedin.com/in/xinjinqiu/',
+  - [LinkedIn](https://www.linkedin.com/in/siful-siddiki/)
+  - [GitHub](https://github.com/sifulsidd)
+- Joie Zhang
+  - [LinkedIn](https://www.linkedin.com/in/joie-zhang/)
+  - [GitHub](https://github.com/joie-zhang)
 
 ## License
 
