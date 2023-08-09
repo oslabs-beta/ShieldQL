@@ -138,15 +138,15 @@ Following Meta's lead with React, we have adopted the [Contributor Covenant](htt
 
 ## Contributors
 
-- **Rodrigo S. Calderon** | [LinkedIn](https://www.linkedin.com/in/rodrigosamourcalderon/) | [GitHub](https://github.com/rscalderon) |
-- **Simran Kaur** | [LinkedIn](https://www.linkedin.com/in/simran-kaur-nyc/) | [GitHub](https://github.com/simk209) |
-- **Xin Jin Qiu** | [LinkedIn](https://www.linkedin.com/in/xinjinqiu/) | [GitHub](https://github.com/xjqiu28) |
-- **Siful Siddiki** | [LinkedIn](https://www.linkedin.com/in/siful-siddiki/) | [GitHub](https://github.com/sifulsidd) |
-- **Joie Zhang** | [LinkedIn](https://www.linkedin.com/in/joie-zhang/) | [GitHub](https://github.com/joie-zhang) |
-
-## License
+- **Rodrigo S. Calderon** | [LinkedIn](https://www.linkedin.com/in/rodrigosamourcalderon/) | [GitHub](https://github.com/rscalderon)
+- **Simran Kaur** | [LinkedIn](https://www.linkedin.com/in/simran-kaur-nyc/) | [GitHub](https://github.com/simk209)
+- **Xin Jin Qiu** | [LinkedIn](https://www.linkedin.com/in/xinjinqiu/) | [GitHub](https://github.com/xjqiu28)
+- **Siful Siddiki** | [LinkedIn](https://www.linkedin.com/in/siful-siddiki/) | [GitHub](https://github.com/sifulsidd)
+- **Joie Zhang** | [LinkedIn](https://www.linkedin.com/in/joie-zhang/) | [GitHub](https://github.com/joie-zhang)
 
 Inspired by [graphQLock](https://github.com/oslabs-beta/graphQLock). _ShieldQL is ISC licensed_
+
+## License
 
 Thank you for using ShieldQL! We hope this library helps you secure your GraphQL APIs effectively. If you encounter any issues or need further assistance, please don't hesitate to reach out to us.
 
