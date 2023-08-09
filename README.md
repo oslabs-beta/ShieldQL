@@ -64,12 +64,12 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL 
 }
 ```
 
-- Ensure that the appropriate graphQL role from the shieldqlConfig.js file is passed into the graphQL route through **res.locals.role** in order for validateToken and loginLink to enforce authentication and authorization
+- Ensure that the appropriate graphQL role from the shieldqlConfig.js file is passed into the graphQL route through **res.locals.role** in order for validateUser and loginLink to enforce authentication and authorization
 
   - This will be passed on to each of ShieldQL's middleware functions
   - A common approach to this problem is the following (see below for an example)
 
-    - Insert a middleware function preceding validateToken and loginLink that queries the user database
+    - Insert a middleware function preceding validateUser and loginLink that queries the user database
     - Extracts the graphQL role
     - Stores it in **res.locals.role**
 
