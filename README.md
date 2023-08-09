@@ -15,7 +15,7 @@
 
   - Where to use: Recommended use is next to importation of ShieldQL functionality in main server file (similar to dotenv.config())
   - shieldqlConfig accepts 3 params: strictShieldQL (a boolean), maxDepthShieldQL (a number), and maxLengthShieldQL (a number), which are used to configure sanitizeQuery (see sanitizeQuery for more details)
-    - strictShieldQL: (default false) boolean value that determines whether or not sanitizeQuery will be run on strict mode or not
+    - strictShieldQL: (default false) boolean value that determines whether or not sanitizeQuery will be run on strict mode or not (strictmode allows queries to be checked against the blocklist)
     - maxDepthShieldQL: (default 10) number that establishes the upper bound for the maximum depth of a graphQL query
     - maxLengthShieldQL: (default 2000) number that establishes the upper bound for total characters in a graphQL query
 
