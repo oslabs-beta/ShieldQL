@@ -3,8 +3,6 @@
   <br>ShieldQL 🛡️</br>
 </h1>
 
-<!-- ![ShieldQL logo](assets/shieldQL.png) -->
-
 ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL that adds authentication, authorization, and query sanitization to prevent malicious queries and injection attacks.
 
 - **Authentication:** ShieldQL helps you implement user authentication in your GraphQL APIs, ensuring that only authenticated users can access certain parts of your API.
