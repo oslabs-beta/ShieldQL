@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const loginLink = (req, res, next) => {
   const secretToken = `ACCESS_TOKEN_${res.locals.role.toUpperCase()}_SECRET`;
   try {
-    //create access token based on role passed via res.locals
+    // create access token based on role passed via res.locals
     const accessToken = jwt.sign(
       { role: res.locals.role },
       process.env[secretToken],
@@ -20,7 +20,7 @@ const loginLink = (req, res, next) => {
     // if there is an error, invoke the global error handler
   } catch (err) {
     return next({
-      log: `Express error ${err}. ROLE NOT FOUND`,
+      log: `ROLE NOT FOUND. Express error: ${err}`,
       status: 404,
       message: { err: 'INVALID USER' },
     });
