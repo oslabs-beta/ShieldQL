@@ -1,6 +1,6 @@
 # ShieldQL
 
-ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL that adds authentication, authorization, and query sanitization to prevent malicious queries and injection attacks.
+ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL that adds authentication, authorization, and query sanitization to prevent malicious queries and injection attacks.
 
 - Authentication: ShieldQL helps you implement user authentication in your GraphQL APIs, ensuring that only authenticated users can access certain parts of your API.
 - Authorization: With ShieldQL, you can define granular access controls for different types and fields in your GraphQL schema. This way, you can control what data each user can access based on their role and permissions.
@@ -10,21 +10,24 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
 
 ## Features
 
-- shieldqlConfig: A Javascript function that allows you to configure sanitizeQuery parameters and creates a secret for each role in the shieldql.json file, storing all of this information in the .env file and the process.env object
-  - Where to use: Recommended use is next to importation of shieldQL functionality in main server file (similar to dotenv.config())
+- **shieldqlConfig:** A Javascript function that allows you to configure sanitizeQuery parameters and creates a secret for each role in the shieldql.json file, storing all of this information in the .env file and the process.env object
+
+  - Where to use: Recommended use is next to importation of ShieldQL functionality in main server file (similar to dotenv.config())
   - shieldqlConfig accepts 3 params: strictShieldQL (a boolean), maxDepthShieldQL (a number), and maxLengthShieldQL (a number), which are used to configure sanitizeQuery (see sanitizeQuery for more details)
     - strictShieldQL: (default false) boolean value that determines whether or not sanitizeQuery will be run on strict mode or not
     - maxDepthShieldQL: (default 10) number that establishes the upper bound for the maximum depth of a graphQL query
     - maxLengthShieldQL: (default 2000) number that establishes the upper bound for total characters in a graphQL query
-- loginLink: Express middleware function that authenticates the client, creates a jwt access token, and stores it as a cookie on the client's browser to authorize future graphQL queries and mutations aligned with the user's role-based permissions described in the shieldql.json file
+
+- **loginLink:** Express middleware function that authenticates the client, creates a jwt access token, and stores it as a cookie on the client's browser to authorize future graphQL queries and mutations aligned with the user's role-based permissions described in the shieldql.json file
+
   - NOTE: Access token expires after one day
-- createSecrets:
-- sanitizeQuery:
-- validateUser: Express middleware function that verifies that the client making a graphQL query or mutation is authorized to do so through jwt verification
+
+- **validateUser:** Express middleware function that verifies that the client making a graphQL query or mutation is authorized to do so through jwt verification
 
   - Assumes that res.locals.role has already been populated with the user's role (that matches roles defined in the shieldql.json file) by a previous middleware function
 
-- SanitizeQuery works even if shieldqlConfig is never invoked, although if used without shieldqlConfig, default parameters will be used (strictmode set to false, maxDepth set to 10, maxLength set to 2000)
+- **sanitizeQuery:**
+  - sanitizeQuery works even if shieldqlConfig is never invoked, although if used without shieldqlConfig, default parameters will be used (strictmode set to false, maxDepth set to 10, maxLength set to 2000)
 
 ## Setup
 
@@ -33,7 +36,7 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
 
 **Screenshot with sample app root directory goes here**
 
-- Create a shieldqlql.json file in root directory. This file will define the roles and permissions that will be enforced throughout the user's graphQL application.
+- Create a shieldql.json file in root directory. This file will define the roles and permissions that will be enforced throughout the user's graphQL application.
   - E.g.:
 
 ```javascript
@@ -51,16 +54,14 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
 }
 ```
 
-- Ensure that the appropriate graphQL role from the shieldqlConfig.js file is passed into the graphQL route in order for validateToken and loginLink to enforce authentication and authorization
+- Ensure that the appropriate graphQL role from the shieldqlConfig.js file is passed into the graphQL route through res.locals.role in order for validateToken and loginLink to enforce authentication and authorization
 
-  - This will be passed on to each of shieldQL's middleware functions
+  - This will be passed on to each of ShieldQL's middleware functions
   - A common approach to this problem is the following (see below for an example)
 
     - Insert a middleware function preceding validateToken and loginLink that queries the user database
     - Extracts the graphQL role
     - Stores it in res.locals.role
-
-  - NOTE: shieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink and validateUser through res.locals.role
 
 ```javascript
 (req, res, next) => {
@@ -68,15 +69,56 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript Library for GraphQL 
 };
 ```
 
+- NOTE: ShieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink and validateUser through res.locals.role
+
 ## Installation
 
 ```javascript
 npm i shieldql
 ```
 
+## Future direction
+
+## Contribution guidelines
+
+## Contributors
+
+- Rodrigo S. Calderon
+  - [LinkedIn] (https://github.com/rscalderon)
+  - GitHub
+- Simran Kaur []
+  - LinkedIn
+  - GitHub
+- Xin Jin Qiu []
+  - LinkedIn
+  - GitHub
+- Siful Siddiki
+  - [LinkedIn ()]
+  - GitHub
+- Joie Zhang []
+
+  - LinkedIn
+  - GitHub
+
+  const githubs = [
+  'https://github.com/joie-zhang',
+  '',
+  'https://github.com/sifulsidd',
+  'https://github.com/simk209',
+  'https://github.com/xjqiu28',
+  ];
+  const linkedins = [
+  'https://www.linkedin.com/in/joie-zhang/',
+  'https://www.linkedin.com/in/rodrigosamourcalderon/',
+  'https://www.linkedin.com/in/siful-siddiki/',
+  'https://www.linkedin.com/in/simran-kaur-nyc/',
+  'https://www.linkedin.com/in/xinjinqiu/',
+
 ## License
 
-shieldQL is ISC licensed
+Inspired by graphQLock
+
+ShieldQL is ISC licensed
 
 <!-- # PENDING REVIEW
 
@@ -96,12 +138,12 @@ To install ShieldQL, use npm or yarn:
 
 bash
 Copy code
-npm install shieldql
+npm install ShieldQL
 or
 
 bash
 Copy code
-yarn add shieldql
+yarn add ShieldQL
 Getting Started
 Integrating ShieldQL into your GraphQL Express application is a breeze. Follow these steps to get started:
 
@@ -111,13 +153,13 @@ Import ShieldQL into your Express server file:
 
 javascript
 Copy code
-const { shieldQL } = require('shieldql');
+const { ShieldQL } = require('ShieldQL');
 Initialize ShieldQL middleware with your authentication and authorization functions:
 javascript
 Copy code
 const { isAuthenticated, hasPermission } = require('./auth'); // Replace with your custom auth functions
 
-const shield = shieldQL({
+const shield = ShieldQL({
 isAuthenticated,
 hasPermission,
 });
