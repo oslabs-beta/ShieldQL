@@ -67,9 +67,24 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL 
     - Stores it in **res.locals.role**
 
 ```javascript
-(req, res, next) => {
-  res.locals.role = ;
-};
+const express = require('express');
+const shieldQL = require('shieldql');
+
+const app = express();
+
+app.post('graphQL',
+populateResLocalsRole,  // populateResLocalsRole is an Express Middleware function that populates res.locals.role with the user's graphql.json role
+shieldQL.sanitizeQuery,
+shieldQL.loginLink,
+shieldQL.validateToken,
+graphqlHttp({
+  schema: graphQlSchema,
+  rootValue: graphQlResolvers,
+  graphiql: true,
+})
+(req, res) => {
+  return res.status(200).json(res.locals.desiredoutput)
+});
 ```
 
 - NOTE: ShieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink and validateUser through **res.locals.role** :shipit:
