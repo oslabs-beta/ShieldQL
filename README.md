@@ -124,7 +124,7 @@ While ShieldQL offers essential security features, it's crucial to keep your app
 
 We welcome contributions to ShieldQL!
 
-Following Meta's lead with React, we have adopted the [Contributor Covenant](https://www.contributor-covenant.org/) as our [code of conduct](code_of_conduct.md) for future contributors. Please read it to ensure that you understand and accept the terms and conditions described therein.
+Following Meta's lead with React, we have adopted the [Contributor Covenant](https://www.contributor-covenant.org/) as our [code of conduct](CODE_OF_CONDUCT.md) for future contributors. Please read it to ensure that you understand and accept the terms and conditions described therein.
 
 ### Branch management
 
