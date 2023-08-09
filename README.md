@@ -3,7 +3,7 @@
   <br>ShieldQL 🛡️</br>
 </h1>
 
-ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL that adds authentication, authorization, and query sanitization to prevent malicious queries and injection attacks.
+[ShieldQL](https://www.shieldql.com) is a lightweight, powerful, easy-to-use JavaScript library for GraphQL that adds authentication, authorization, and query sanitization to prevent malicious queries and injection attacks.
 
 - **Authentication:** ShieldQL helps you implement user authentication in your GraphQL APIs, ensuring that only authenticated users can access certain parts of your API.
 - **Authorization:** With ShieldQL, you can define granular access controls for different types and fields in your GraphQL schema. This way, you can control what data each user can access based on their role and permissions.
@@ -138,21 +138,11 @@ Following Meta's lead with React, we have adopted the [Contributor Covenant](htt
 
 ## Contributors
 
-- **Rodrigo S. Calderon**
-  - [LinkedIn](https://www.linkedin.com/in/rodrigosamourcalderon/)
-  - [GitHub](https://github.com/rscalderon)
-- **Simran Kaur**
-  - [LinkedIn](https://www.linkedin.com/in/simran-kaur-nyc/)
-  - [GitHub](https://github.com/simk209)
-- **Xin Jin Qiu**
-  - [LinkedIn](https://www.linkedin.com/in/xinjinqiu/)
-  - [GitHub](https://github.com/xjqiu28)
-- **Siful Siddiki**
-  - [LinkedIn](https://www.linkedin.com/in/siful-siddiki/)
-  - [GitHub](https://github.com/sifulsidd)
-- **Joie Zhang**
-  - [LinkedIn](https://www.linkedin.com/in/joie-zhang/)
-  - [GitHub](https://github.com/joie-zhang)
+- **Rodrigo S. Calderon** | [LinkedIn](https://www.linkedin.com/in/rodrigosamourcalderon/) | [GitHub](https://github.com/rscalderon) |
+- **Simran Kaur** | [LinkedIn](https://www.linkedin.com/in/simran-kaur-nyc/) | [GitHub](https://github.com/simk209) |
+- **Xin Jin Qiu** | [LinkedIn](https://www.linkedin.com/in/xinjinqiu/) | [GitHub](https://github.com/xjqiu28) |
+- **Siful Siddiki** | [LinkedIn](https://www.linkedin.com/in/siful-siddiki/) | [GitHub](https://github.com/sifulsidd) |
+- **Joie Zhang** | [LinkedIn](https://www.linkedin.com/in/joie-zhang/) | [GitHub](https://github.com/joie-zhang) |
 
 ## License
 
