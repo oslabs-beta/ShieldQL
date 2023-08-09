@@ -151,29 +151,3 @@ Inspired by [graphQLock](https://github.com/oslabs-beta/graphQLock). _ShieldQL i
 Thank you for using ShieldQL! We hope this library helps you secure your GraphQL APIs effectively. If you encounter any issues or need further assistance, please don't hesitate to reach out to us.
 
 Happy coding!
-
-<!-- # PENDING REVIEW
-
-ShieldQL is a powerful and easy-to-use JavaScript GraphQL middleware library designed to enhance the security of your GraphQL APIs. It provides essential features such as user authentication, authorization, and query sanitization, making it a reliable choice for securing your GraphQL endpoints. With ShieldQL, you can rest assured that your GraphQL API is protected from common security vulnerabilities.
-
-Features
-User Authentication: ShieldQL helps you implement user authentication in your GraphQL APIs, ensuring that only authenticated users can access certain parts of your API.
-
-User Authorization: With ShieldQL, you can define granular access controls for different types and fields in your GraphQL schema. This way, you can control what data each user can access based on their role and permissions.
-
-Query Sanitization: ShieldQL automatically sanitizes incoming GraphQL queries to prevent potential malicious operations and protect your backend from harmful attacks like N+1 queries and denial-of-service attacks.
-
-Lightweight and Easy to Use: ShieldQL is designed to be lightweight and straightforward to integrate into your existing GraphQL Express application without introducing unnecessary complexities.
-
-
-Getting Started
-Integrating ShieldQL into your GraphQL Express application is a breeze. Follow these steps to get started:
-
-First, install the ShieldQL package as shown in the installation instructions above.
-
-Import ShieldQL into your Express server file:
-
-Remember to adapt the isAuthenticated and hasPermission functions according to your user authentication and authorization mechanisms.
-
-Security Considerations
-While ShieldQL offers essential security features, it's crucial to keep your application and dependencies up to date to stay protected against emerging security threats. Always follow best practices for securing your GraphQL APIs, such as input validation and error handling.
