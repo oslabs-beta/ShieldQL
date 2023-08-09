@@ -4,11 +4,23 @@ const permissions = require(path.resolve(__dirname, '../../shieldql.json'));
 
 // validateUser is an Express middleware function that verifies that the client making a graphQL query or mutation is authorized to do so through jwt verification
 // this function assumes that res.locals.role has already been populated with the user's role (that matches roles defined in the shieldql.json file) by a previous middleware function
-const validateUser = (req, res, next) => {
+const validateUser = async (req, res, next) => {
   // pull out access token from cookies
   const accessToken = req.cookies.accessToken;
+
+  let token;
+  try {
+    token = await jwt.decode(accessToken);
+  } catch (err) {
+    return next({
+      log: `Express error during validateUser when decoding accessToken: ${err}`,
+      status: 500,
+      message: { err: 'INVALID USER' },
+    });
+  }
+
   const secret =
-    process.env[`ACCESS_TOKEN_${res.locals.role.toUpperCase()}_SECRET`];
+    process.env[`ACCESS_TOKEN_${token.role.toUpperCase()}_SECRET`];
 
   // verify token using role
   // result payload comes back as an object with roles and username as keys
