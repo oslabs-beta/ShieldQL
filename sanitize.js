@@ -55,7 +55,7 @@ const sanitize = (input, strict = false, maxDepth = 10, maxLength = 2000) => {
   return input;
 };
 // Additional development areas to further strengthen sanitize.js:
-// allowlisting is an option we are not currently pursuing, but could help further secure our queries
+// allowListing is an option we are not currently pursuing, but could help further secure our queries
 // amount limiting (limiting number of times a query can be called)
 
 // deepLimit is a function that accepts two params, input (a JSON string graphQL query) and depth (a number value) and throws an error if the passed-in input has a depth greater than depth, else returns input

@@ -1,10 +1,12 @@
-# ShieldQL
+
+
+# ShieldQL 🛡️
 
 ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL that adds authentication, authorization, and query sanitization to prevent malicious queries and injection attacks.
 
-- Authentication: ShieldQL helps you implement user authentication in your GraphQL APIs, ensuring that only authenticated users can access certain parts of your API.
-- Authorization: With ShieldQL, you can define granular access controls for different types and fields in your GraphQL schema. This way, you can control what data each user can access based on their role and permissions.
-- Query Sanitization: ShieldQL gives you the tools to sanitize incoming GraphQL queries to prevent potential malicious operations and protect your backend from excessively deep and excessively long queries used in denial-of-service attacks.
+- **Authentication:** ShieldQL helps you implement user authentication in your GraphQL APIs, ensuring that only authenticated users can access certain parts of your API.
+- **Authorization:** With ShieldQL, you can define granular access controls for different types and fields in your GraphQL schema. This way, you can control what data each user can access based on their role and permissions.
+- **Query Sanitization:** ShieldQL gives you the tools to sanitize incoming GraphQL queries to prevent potential malicious operations and protect your backend from excessively deep and excessively long queries used in denial-of-service attacks.
 
 # NOTE: ShieldQL is still in development. We will officially launch on Thursday 8/10 :rocket:
 
@@ -34,7 +36,7 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL 
 - Make sure dotenv has been imported, that it is properly configured, and that a .env file already exists
 - Ensure that the .env file is in the root directory
 
-![Screenshot of sample demo app directory.](assets/sample_directory.png)
+![Screenshot of sample demo app directory.](assets/sample_directory2.png)
 
 - Create a shieldql.json file in root directory. This file will define the roles and permissions that will be enforced throughout the user's graphQL application.
   - E.g.:
@@ -77,43 +79,63 @@ ShieldQL is a lightweight, powerful, easy-to-use JavaScript library for GraphQL 
 npm i shieldql
 ```
 
+## Security Considerations
+
+While ShieldQL offers essential security features, it's crucial to keep your application and dependencies up to date to stay protected against emerging security threats. Always follow best practices for securing your GraphQL APIs.
+
 ## Future direction
 
-Intro text blurb and list with future direction areas
+**What advantages await developers who contribute to ShieldQL?**
 
-- Due to the fact that our product is a library, incorporate end-to-end testing
--
-- future contribution area3
-- future contribution area4
-- future contribution area5
+- allowListing configuration and implementation for sanitize.js
+- Amount limiting (limiting number of times a query can be called)
+- Jest/End-to-end Testing
+- Add error handling for GraphQL queries
+- Developing a graphical interface for configuring permissions and user roles
+- Integrate a database to restrict malicious query runs.
+- Typescript
 
 ## Contribution guidelines
 
-Insert contribution snippet here with instructions on how to contribute
+We welcome contributions to ShieldQL!
+
+Following Meta's lead with React, we have adopted the [Contributor Covenant](https://www.contributor-covenant.org/) as our code of conduct for future contributors. Please read it to ensure that you understand and accept the terms and conditions described therein.
+
+### Branch management
+
+- Please submit any pull requests to the dev branch. All changes will be reviewed before merging by [OSLabs](https://www.opensourcelabs.io/) and prior contributors.
+
+### Bugs and suggestions
+
+- For help with existing issues, please read our [GitHub issues page](https://github.com/oslabs-beta/ShieldQL/issues)
+- If you cannot find support in the issues page, please file a report on the same issues page.
+- Suggestions and other feedback are more than welcome!
 
 ## Contributors
 
-- Rodrigo S. Calderon
+- **Rodrigo S. Calderon**
   - [LinkedIn](https://www.linkedin.com/in/rodrigosamourcalderon/)
   - [GitHub](https://github.com/rscalderon)
-- Simran Kaur
+- **Simran Kaur**
   - [LinkedIn](https://www.linkedin.com/in/simran-kaur-nyc/)
   - [GitHub](https://github.com/simk209)
-- Xin Jin Qiu
+- **Xin Jin Qiu**
   - [LinkedIn](https://www.linkedin.com/in/xinjinqiu/)
   - [GitHub](https://github.com/xjqiu28)
-- Siful Siddiki
+- **Siful Siddiki**
   - [LinkedIn](https://www.linkedin.com/in/siful-siddiki/)
   - [GitHub](https://github.com/sifulsidd)
-- Joie Zhang
+- **Joie Zhang**
   - [LinkedIn](https://www.linkedin.com/in/joie-zhang/)
   - [GitHub](https://github.com/joie-zhang)
 
 ## License
 
-Inspired by graphQLock
+Inspired by [graphQLock](https://github.com/oslabs-beta/graphQLock). ShieldQL is ISC licensed
 
-ShieldQL is ISC licensed
+Thank you for using ShieldQL! We hope this library helps you secure your GraphQL APIs effectively. If you encounter any issues or need further assistance, please don't hesitate to reach out to us.
+
+Happy coding!
 
 <!-- # PENDING REVIEW
 
@@ -128,17 +150,7 @@ Query Sanitization: ShieldQL automatically sanitizes incoming GraphQL queries to
 
 Lightweight and Easy to Use: ShieldQL is designed to be lightweight and straightforward to integrate into your existing GraphQL Express application without introducing unnecessary complexities.
 
-Installation
-To install ShieldQL, use npm or yarn:
 
-bash
-Copy code
-npm install ShieldQL
-or
-
-bash
-Copy code
-yarn add ShieldQL
 Getting Started
 Integrating ShieldQL into your GraphQL Express application is a breeze. Follow these steps to get started:
 
@@ -146,75 +158,7 @@ First, install the ShieldQL package as shown in the installation instructions ab
 
 Import ShieldQL into your Express server file:
 
-javascript
-Copy code
-const { ShieldQL } = require('ShieldQL');
-Initialize ShieldQL middleware with your authentication and authorization functions:
-javascript
-Copy code
-const { isAuthenticated, hasPermission } = require('./auth'); // Replace with your custom auth functions
-
-const shield = ShieldQL({
-isAuthenticated,
-hasPermission,
-});
-Apply the ShieldQL middleware to your GraphQL endpoint:
-javascript
-Copy code
-const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
-const { schema } = require('./schema'); // Replace with your GraphQL schema
-
-const app = express();
-
-app.use('/graphql', shield, graphqlHTTP({
-schema,
-graphiql: true, // Enable GraphiQL interface for testing (optional)
-}));
-
-app.listen(3000, () => {
-console.log('Server started on http://localhost:3000');
-});
-Implement your custom authentication and authorization functions in a separate file (e.g., auth.js) and export them for ShieldQL to use.
-Custom Authentication and Authorization Functions
-ShieldQL allows you to define your custom authentication and authorization functions to suit your application's specific requirements. These functions should return true or false based on whether the user is authenticated and has the required permissions, respectively.
-
-Here's an example of how your custom auth.js file might look:
-
-javascript
-Copy code
-// auth.js
-
-// Sample authentication function
-const isAuthenticated = (user) => {
-return user !== null; // Replace this with your actual authentication logic
-};
-
-// Sample authorization function
-const hasPermission = (user, requiredPermission) => {
-if (!user) {
-return false;
-}
-
-// Replace this with your actual permission checking logic
-return user.permissions.includes(requiredPermission);
-};
-
-module.exports = {
-isAuthenticated,
-hasPermission,
-};
 Remember to adapt the isAuthenticated and hasPermission functions according to your user authentication and authorization mechanisms.
 
 Security Considerations
 While ShieldQL offers essential security features, it's crucial to keep your application and dependencies up to date to stay protected against emerging security threats. Always follow best practices for securing your GraphQL APIs, such as input validation and error handling.
-
-Contribution
-We welcome contributions to ShieldQL! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request on our GitHub repository.
-
-License
-ShieldQL is licensed under the MIT License. See the LICENSE file for more details.
-
-Thank you for using ShieldQL! We hope this library helps you secure your GraphQL APIs effectively. If you encounter any issues or need further assistance, please don't hesitate to reach out to us.
-
-Happy coding! -->
