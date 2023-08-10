@@ -11,21 +11,21 @@
 
 ## Features
 
-- **shieldqlConfig:** A Javascript function that allows you to configure sanitizeQuery parameters and creates a secret for each role in the shieldql.json file, storing all of this information in the .env file and the process.env object
+- **shieldqlConfig:** A Javascript function that allows you to configure how sanitizeQuery will restrict queries and creates a secret for each role in the shieldql.json file, storing all of this information in the .env file and the process.env object
 
   - Where to use: Recommended use is next to importation of ShieldQL functionality in main server file (similar to dotenv.config())
   - shieldqlConfig accepts 3 params: strictShieldQL (a boolean), maxDepthShieldQL (a number), and maxLengthShieldQL (a number), which are used to configure sanitizeQuery (see sanitizeQuery for more details)
-    - strictShieldQL: (default false) boolean value that determines whether or not sanitizeQuery will be run on strict mode or not
+    - strictShieldQL: (default false) boolean value that determines whether or not sanitizeQuery will be run on strict mode or not (strictmode allows queries to be checked against the blocklist)
     - maxDepthShieldQL: (default 10) number that establishes the upper bound for the maximum depth of a graphQL query
     - maxLengthShieldQL: (default 2000) number that establishes the upper bound for total characters in a graphQL query
 
 - **loginLink:** Express middleware function that authenticates the client, creates a jwt access token, and stores it as a cookie on the client's browser to authorize future graphQL queries and mutations aligned with the user's role-based permissions described in the shieldql.json file
+  
+  - Assumes that res.locals.role has already been populated with the user's role (that matches roles defined in the shieldql.json file) by a previous middleware function
 
   - NOTE: Access token expires after one day
 
 - **validateUser:** Express middleware function that verifies that the client making a graphQL query or mutation is authorized to do so through jwt verification
-
-  - Assumes that res.locals.role has already been populated with the user's role (that matches roles defined in the shieldql.json file) by a previous middleware function
 
 - **sanitizeQuery:** Express middleware function users will require and invoke in their applications to sanitize graphQL queries
 
@@ -66,7 +66,6 @@
 
 - Ensure that the appropriate graphQL role from the shieldqlConfig.js file is passed into the graphQL route through **res.locals.role** in order for loginLink to enforce authentication and authorization
 
-  - This will be passed on to each of ShieldQL's middleware functions
   - A common approach to this problem is the following (see below for an example)
 
     - Insert a middleware function preceding loginLink that queries the user database
@@ -98,7 +97,7 @@ app.post(
 );
 ```
 
-- NOTE: ShieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink and validateUser through **res.locals.role** :shipit:
+- NOTE: ShieldQL will NOT be able to authenticate and authorize graphQL queries unless roles are passed into loginLink through **res.locals.role** :shipit:
 
 ## Installation
 
@@ -114,6 +113,8 @@ While ShieldQL offers essential security features, it's crucial to keep your app
 
 - allowListing configuration and implementation for sanitize.js
 - Amount limiting (limiting number of times a query can be called)
+- make app compatible with multiple root level queries/mutations in a single request
+- implement refresh tokens
 - Jest/End-to-end Testing
 - Add error handling for GraphQL queries
 - Developing a graphical interface for configuring permissions and user roles
