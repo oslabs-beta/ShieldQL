@@ -75,20 +75,30 @@
 ```javascript
 const express = require('express');
 const graphqlHttp = require('express-graphql');
-
 const shieldql = require('shieldql');
 const dotenv = require('dotenv');
 dotenv.config();
-shieldql.shieldqlConfig(true, 15, 5000);
+
+// shieldqlConfig configures settings for sanitizeQuery
+// if the first arg is true, sanitizeQuery will check queries against the blocklist
+// second arg indicates maxDepth allowed
+// third arg indicates maxLength allowed
+shieldql.shieldqlConfig(true, 15, 5000); 
 
 const app = express();
 
+app.post('/login',
+  populateResLocalsRole, //this middleware function will pass role via res.locals.role
+  shieldql.loginLink, // loginLink will use the role to create an access token
+  (req, res) => {
+    return res.status(200).json(res.locals);
+  }
+);
+
 app.post(
   '/graphql',
-  shieldql.sanitizeQuery,
-  populateResLocalsRole, // populateResLocalsRole is an Express Middleware function that populates res.locals.role with the user's graphql.json role
-  shieldql.loginLink,
-  shieldql.validateUser,
+  shieldql.sanitizeQuery, // developers can invoke sanitizeQuery to sanitize queries based on the rules passed into shieldqlConfig
+  shieldql.validateUser, // validateUser checks if user is authorized to make the query based on their role and the permissions set in shieldql.json
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
