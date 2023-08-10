@@ -20,14 +20,18 @@
     - maxLengthShieldQL: (default 2000) number that establishes the upper bound for total characters in a graphQL query
 
 - **loginLink:** Express middleware function that authenticates the client, creates a jwt access token, and stores it as a cookie on the client's browser to authorize future graphQL queries and mutations aligned with the user's role-based permissions described in the shieldql.json file
+
+  - Where to use: loginLink should be invoked in a separate login-related route, so that the request body includes the access token in subsequent requests to the /graphql endpoint
   
   - Assumes that res.locals.role has already been populated with the user's role (that matches roles defined in the shieldql.json file) by a previous middleware function
 
   - NOTE: Access token expires after one day
 
 - **validateUser:** Express middleware function that verifies that the client making a graphQL query or mutation is authorized to do so through jwt verification
+  - Where to use: validateUser should be invoked as part of the middleware chain for the /graphql route 
 
 - **sanitizeQuery:** Express middleware function users will require and invoke in their applications to sanitize graphQL queries
+  - Where to use: sanitizeQuery should be invoked as the **first** piece of middleware in the middleware chain for the /graphql route
 
   - sanitizeQuery works even if shieldqlConfig is never invoked, although if used without shieldqlConfig, default parameters will be used (strictmode set to false, maxDepth set to 10, maxLength set to 2000)
 
