@@ -15,7 +15,7 @@ const sanitize = (input, strict = false, maxDepth = 10, maxLength = 2000) => {
       '1=1',
       `' OR`,
       'select sqlite_version()',
-      '@skip',
+      // '@skip',
       '@@version',
       'DROP TABLE',
       'UNION SELECT null',
